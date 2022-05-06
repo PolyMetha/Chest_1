@@ -26,9 +26,6 @@ void menu (){
             }
         }
         while(reponse < 1 || reponse > 3);
-        //test git
-        scanf("%d", &reponse);
-        //a supprimer
         switch (reponse) {
             case 1 :
                 //fonction d'andréa
