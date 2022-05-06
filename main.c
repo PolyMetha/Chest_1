@@ -8,6 +8,8 @@
 #include "menu.h"
 
 int main() {
+    int SizeTab;
+
     menu();
     return 0;
 }
