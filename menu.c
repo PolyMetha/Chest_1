@@ -31,7 +31,7 @@ void menu (){
         switch (reponse) {
             case 1 :
                 //fonction d'andréa
-                echequier();
+                fonctEchequier();
                 quitterboolean = 1;
                 break;
             case 2 :

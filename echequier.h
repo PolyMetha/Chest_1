@@ -5,15 +5,14 @@
 #ifndef CHEST_1_ECHEQUIER_H
 #define CHEST_1_ECHEQUIER_H
 
-void echequier();
+void fonctEchequier();
+
 
 struct piece{
     int id;
     char name;
     int dx[100];
     int dy[100];
-    char spriteB[4];
-    char spriteN[4];
 };
 typedef struct piece piece;
 
