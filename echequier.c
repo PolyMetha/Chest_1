@@ -8,14 +8,42 @@
 #include "fonctions.c"
 
 void printEchequier(int size, char echequier[size][size]){
-    int x=0, y=0;
+    int x=0, y=0, i=0;
 
+    wprintf(L"\n");
+    //contenu
     for(x=0; x<size; x++){
         for(y=0; y<size; y++){
-            findSprite(echequier[x][y]);
+
+            if(echequier[x][y]!=' '){
+                wprintf(L"\x2001");
+                findSprite(echequier[x][y]);
+                wprintf(L"\x2001");
+            }
+            else{
+                if(x%2==0){
+                    if(y%2==0){
+                        wprintf(L"\x2001\x2B1B\x2001");
+                    }
+                    else{
+                        wprintf(L"\x2001\x2001\x2001");
+                    }
+                }
+                else{
+                    if(y%2==0){
+                        wprintf(L"\x2001\x2001\x2001");
+                    }
+                    else{
+                        wprintf(L"\x2001\x2B1B\x2001");
+                    }
+                }
+
+            }
         }
         wprintf(L"\n");
     }
+    //bas tableau
+
 }
 
 void fonctEchequier(){
@@ -108,9 +136,7 @@ void fonctEchequier(){
             }
         }
     }
-
     compteurRoi = 0;
-
     for(x=size-2; x<size; x++){
         if(x==size-2){
             for(y=0; y<size; y++){
