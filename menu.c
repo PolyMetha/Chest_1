@@ -9,6 +9,8 @@
 #include <conio.h>
 #include <time.h>
 #include <windows.h>
+=======
+#include "echequier.h"
 #include "menu.h"
 #include "Savefile.h"
 
@@ -23,17 +25,22 @@ void menu (){
         wprintf(L"2 - Reprendre une partie\n");
         wprintf(L"3 - Quitter\n");
         wprintf(L"\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\n");
+
         do {                                 //Vérification de l'accisition de l'utilisateur.
             scanf("%d",&reponse);
             if((reponse < 1 || reponse > 3)) { //N'affichera pas le message d'erreur si l'accisition de l'utilisateur est comprise entre 1 et 3.
-                wprintf(L"Vosu devez entrez votre réponse entre 1 et 3");
+
+=======
+                wprintf(L"Vous devez entrez votre réponse entre 1 et 3");
             }
         }
+
         while(reponse < 1 || reponse > 3);
         system("cls");
         switch (reponse) {
             case 1 :
                 //fonction d'andréa
+                fonctEchiquier();
                 quitterboolean = 1;
                 break;
             case 2 :
