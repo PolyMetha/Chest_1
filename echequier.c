@@ -265,4 +265,9 @@ void fonctEchiquier(){
         wprintf(L"Pour aller au prochain coup, entrez 0, sinon\nPour quitter, entrez 2");
         scanf("%d", &nextCoup);
     }
+    FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde
+    if(f!= NULL){ //vérification de l'ouverture
+       fprintf(f,"je ne sais quoi"); //Ecriture de l'echeuqier dans le ficher
+    }
+    fclose(f); // fermeture du fichier.
 }
