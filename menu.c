@@ -9,7 +9,6 @@
 #include <conio.h>
 #include <time.h>
 #include <windows.h>
-=======
 #include "echequier.h"
 #include "menu.h"
 #include "Savefile.h"
@@ -30,7 +29,6 @@ void menu (){
             scanf("%d",&reponse);
             if((reponse < 1 || reponse > 3)) { //N'affichera pas le message d'erreur si l'accisition de l'utilisateur est comprise entre 1 et 3.
 
-=======
                 wprintf(L"Vous devez entrez votre réponse entre 1 et 3");
             }
         }

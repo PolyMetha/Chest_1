@@ -7,6 +7,6 @@
 
 void findSprite(char);
 
-void dPion(int size, char echiquier[size][size], int[], int[]);
+void dPionB(int size, char echiquier[size][size], int[], int[], int, int*);
 
 #endif //CHEST_1_PIECES_H

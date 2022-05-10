@@ -60,42 +60,42 @@ int pieceBlanche(int pieceID){
     }
 }
 
-void fonctionCoup(char name, int size, char echiquier[size][size], int CaseDepart[],int CaseArrivee[]){
+void fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int CaseArrivee[], int PieceID, int PieceBlockID, int * PiecePriseID){
     //lance la bonne fonction pour la piece selectionnée
-    switch(name){
-        case 'P':
-        dPion(size, echiquier, CaseDepart, CaseArrivee);
+    switch(PieceID){
+        case 0:
+            dPionB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
             break;
-        case 'p':
-            dPion(size, echiquier, CaseDepart, CaseArrivee);
-            break;
-        case 'T':
+        case 1:
 
             break;
-        case 't':
-            break;
-        case 'C':
+        case 2:
 
             break;
-        case 'c':
+        case 3:
+            break;
+        case 4:
 
             break;
-        case 'F':
+        case 5:
 
             break;
-        case 'f':
+        case 6:
+            dPionB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+            break;
+        case 7:
 
             break;
-        case 'Q':
+        case 8:
 
             break;
-        case 'q':
+        case 9:
 
             break;
-        case 'R':
+        case 10:
 
             break;
-        case 'r':
+        case 11:
 
             break;
         default:
