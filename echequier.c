@@ -203,7 +203,15 @@ void fonctEchiquier(){
 
 
     while(nextCoup == 0){
-        wprintf(L"Quelle piece voulez vous deplacer ?\n Numero de la ligne : ");
+
+        wprintf(L"Quelle piece voulez vous deplacer ?\nLettre de colonne : ");
+        while (lettre < 'A' || lettre >= 'A' + size) {
+            scanf("%c", &lettre);
+        }
+        LetterToInt(lettre, &CaseStart[1]);
+        lettre = ' ';
+
+        wprintf(L"Numero de la ligne : ");
         while (CaseStart[0] < 0 || CaseStart[0] >= size) {
             scanf(" %d", &CaseStart[0]);
             //le 1 affiché correspond au 0 echiquier
@@ -211,12 +219,6 @@ void fonctEchiquier(){
         }
         wprintf(L"\n");
 
-        wprintf(L" Lettre de colonne : ");
-        while (lettre < 'A' || lettre >= 'A' + size) {
-            scanf("%c", &lettre);
-        }
-        LetterToInt(lettre, &CaseStart[1]);
-        lettre = ' ';
 
         //verif si c'est une piece blanche, si case vide ou piece noire, choisir autre piece
         if(echiquier[CaseStart[0]][CaseStart[1]] != ' '){
@@ -228,21 +230,18 @@ void fonctEchiquier(){
             wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
         }
         wprintf(L"\n");
-
-        wprintf(L"Ou voulez vous vous déplacer ?\n Numero de la Ligne : ");
-        while(CaseEnd[0] < 0 || CaseEnd[0] >= size){
-            scanf(" %d", &CaseEnd[0]);
-            CaseEnd[0] = CaseEnd[0]-1;
-        }
-        wprintf(L"\n");
-
-        wprintf(L" Lettre de colonne : ");
+        wprintf(L"Ou voulez vous vous déplacer ?\nLettre de colonne : ");
         while(lettre < 'A' || lettre >= 'A' + size){
             scanf("%c", &lettre);
         }
         LetterToInt(lettre, &CaseEnd[1]);
         lettre = ' ';
 
+        wprintf(L"Numero de la Ligne : ");
+        while(CaseEnd[0] < 0 || CaseEnd[0] >= size){
+            scanf(" %d", &CaseEnd[0]);
+            CaseEnd[0] = CaseEnd[0]-1;
+        }
 
         wprintf(L"Case de départ : \n");
         for(i=0; i<2; i++){
@@ -254,7 +253,7 @@ void fonctEchiquier(){
             wprintf(L"%d", CaseEnd[i]);
         }
         wprintf(L"\n");
-
+        system("cls");
         fonctionCoup(echiquier[CaseStart[0]][CaseStart[1]], size, echiquier, CaseStart, CaseEnd);
 
         printEchiquier(size, echiquier);
@@ -262,7 +261,7 @@ void fonctEchiquier(){
         //reset des coups
         CaseStart[0]=-1; CaseStart[1]=-1; CaseEnd[0]=-1; CaseEnd[1]=-1;
 
-        wprintf(L"Pour aller au prochain coup, entrez 0, sinon\nPour quitter, entrez 2");
+        wprintf(L"Pour aller au prochain coup, entrez 0, sinon\nPour quitter, entrez 2\n");
         scanf("%d", &nextCoup);
     }
     FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde
