@@ -1,6 +1,7 @@
 //
 // Created by reini on 06/05/2022.
 //
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -41,7 +42,7 @@ void menu (){
                 quitterboolean = 1;
                 break;
             case 3 :
-                wprintf(L"vous etes sur ? oui ou non ?\n");
+                wprintf(L"vous êtes sur oui ou non?\n");
                 scanf("%s",&quitter);
                 strlwr(quitter);
                 quitterboolean = strcmp(quitter, "oui");

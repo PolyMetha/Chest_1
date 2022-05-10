@@ -12,5 +12,11 @@
 #include "Savefile.h"
 void savefile(){
     _setmode(_fileno(stdout), 0x00020000);
-    wprintf(L"lol");
+
+    FILE* f = fopen("Save.txt","w");
+    if (f!=NULL){
+        fprintf(f,"");
+    }
+    fclose(f);
+    wprintf(L"");
 }
