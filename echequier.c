@@ -10,11 +10,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-void printEchiquier(int size, char echequier[size][size]){
-    int x=0, y=0, i=0, ascii_A=65;
+void printEchiquier(int size, char echequier[size][size], char PiecesPrisesB[], char PiecesPrisesN[]){
+    int x, y, i,j=0, ascii_A=65;
 
-    wprintf(L"\n  ");
-    for(i=0; i<=size; i++){
+    //Pieces perdues par les noirs
+    wprintf(L"\n\n ");
+    while(PiecesPrisesN[j]!='\0'){
+        findSprite(PiecesPrisesN[j]);
+        j=j+1;
+    }
+
+    wprintf(L"\n\n ");
+    for(i=0; i<size; i++){
         wprintf(L" %c ", ascii_A+i);
         if(i%2==0){
             wprintf(L" ");
@@ -51,12 +58,19 @@ void printEchiquier(int size, char echequier[size][size]){
             }
         }
         wprintf(L"\n");
-    }
-    //bas tableau
 
+
+    }
+
+    //Pieces perdues par les blancs
+    while(PiecesPrisesN[j]!='\0'){
+        findSprite(PiecesPrisesN[j]);
+        j=j+1;
+    }
+    wprintf(L"\n");
 }
 
-void searchPiece(char name,int * pieceID ,piece pieces[]){
+void searchID(char name, int * pieceID , piece pieces[]){ //Recherche un ID de piece Pour un nom donné
     int i;
     for(i=0; i<=11; i++){
         if(name==pieces[i].name){
@@ -65,23 +79,32 @@ void searchPiece(char name,int * pieceID ,piece pieces[]){
     }
 }
 
+void searchName(int ID, char* name, piece pieces[]){  //Recherche un nom pour un ID donné
+    int i;
+    for(i=0; i<=11; i++){
+        if(ID==pieces[i].id){
+            *name = pieces[i].name;
+        }
+    }
+}
+
 void fonctEchiquier(){
     int size=0;
 
     struct piece pieces[12] = {
-            0,'p', {0,0}, {1,2},"Pion noir",
-            1,'c', {-1,-1,-2,-2,1,1,2,2},{-2,2,-1,1,-2,2,-1,1},"Cavalier Noir",
-            2,'f',{},{},"Fou Noir",
-            3,'t',{},{},"Tour Noire",
-            4,'q',{},{},"Reine Noire",
-            5,'r',{-1,-1,-1,0,0,1,1,1},{-1,0,1,-1,1,-1,0,1},"Roi Noir",
+            0,'p',"Pion noir",
+            1,'c',"Cavalier Noir",
+            2,'f',"Fou Noir",
+            3,'t',"Tour Noire",
+            4,'q',"Reine Noire",
+            5,'r',"Roi Noir",
 
-            6,'P', {0,0}, {1,2},"Pion Blanc",
-            7,'C', {-1,-1,-2,-2,1,1,2,2},{-2,2,-1,1,-2,2,-1,1},"Cavalier Blanc",
-            8,'F',{},{},"Fou Blanc",
-            9,'T',{},{},"Tour Blache",
-            10,'Q',{},{},"Reine Blanche",
-            11,'R',{-1,-1,-1,0,0,1,1,1},{-1,0,1,-1,1,-1,0,1},"Roi Blanc"
+            6,'P',"Pion Blanc",
+            7,'C', "Cavalier Blanc",
+            8,'F',"Fou Blanc",
+            9,'T',"Tour Blache",
+            10,'Q',"Reine Blanche",
+            11,'R',"Roi Blanc"
     };
 
     //input de la taille de l'échequier
@@ -94,10 +117,10 @@ void fonctEchiquier(){
 
     char echiquier[size][size];
 
-    //remplissage
+    //remplissage de l'echiquier
     int x, y, i , idPiece, compteurRoi=0;
     srand(time(0));
-    for(x=0; x < 2; x++){
+    for(x=0; x < 2; x++){       //2 premières lignes
         for(y=0; y < size; y++){
             idPiece = rand()%6;
             for(i=0;i<=5;i++){
@@ -107,12 +130,12 @@ void fonctEchiquier(){
                }
             }
         }
-    for(x=2; x<size-2; x++){
+    for(x=2; x<size-2; x++){            //lignes intermédiaires
         for(y=0; y<size; y++){
             echiquier[x][y] = ' ';
         }
     }
-    for(x=size-2; x<size; x++){
+    for(x=size-2; x<size; x++){         //2 dernières lignes
         for(y=0; y<size; y++){
             idPiece = 6 + rand()%6;
             for(i=6;i<=11;i++){
@@ -123,7 +146,7 @@ void fonctEchiquier(){
         }
     }
 
-    //verifRoi
+    //verifications roi
     for(x=0; x<2; x++){
         if(x==0){
             for(y=0; y<size; y++){
@@ -193,76 +216,102 @@ void fonctEchiquier(){
 
 
 
-    int CaseStart[2]={-1, -1},CaseEnd[2]={-1, -1};
-    int PieceSelectID=0, nextCoup=0;
-    char lettre;
+    int Start[2]={-1, -1},End[2]={-1, -1}, n=0, m=0;      //Cases de départ et d'arrivée et compteurs
+    int PieceSelectID=-1, PieceBlockID=-1,PiecePriseID=-1, nextCoup=0; //ID de la piece selectionnée et la piece bloquante lors du coup
+    char lettre, PiecePriseName, PiecesPrisesB[2*size], PiecesPrisesN[2*size];    //Lettre de la colonne
 
-    printEchiquier(size, echiquier);
+    //Affiche la situation de départ
+    printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
 
-
-
-
+    //Selection de la piece a deplacer
     while(nextCoup == 0){
         wprintf(L"Quelle piece voulez vous deplacer ?\n Numero de la ligne : ");
-        while (CaseStart[0] < 0 || CaseStart[0] >= size) {
-            scanf(" %d", &CaseStart[0]);
+        while (Start[0] < 0 || Start[0] >= size) {
+            scanf(" %d", &Start[0]);
             //le 1 affiché correspond au 0 echiquier
-            CaseStart[0] = CaseStart[0]-1;
+            Start[0] = Start[0] - 1;
         }
-        wprintf(L"\n");
-
         wprintf(L" Lettre de colonne : ");
         while (lettre < 'A' || lettre >= 'A' + size) {
             scanf("%c", &lettre);
         }
-        LetterToInt(lettre, &CaseStart[1]);
+        LetterToInt(lettre, &Start[1]);
         lettre = ' ';
 
         //verif si c'est une piece blanche, si case vide ou piece noire, choisir autre piece
-        if(echiquier[CaseStart[0]][CaseStart[1]] != ' '){
-            searchPiece(echiquier[CaseStart[0]][CaseStart[1]], &PieceSelectID, pieces);
+        if(echiquier[Start[0]][Start[1]] != ' '){
+            searchID(echiquier[Start[0]][Start[1]], &PieceSelectID, pieces);
+            if(PieceSelectID>=6){
+                wprintf(L"Piece selectionee : ");
+                for(i=0; i<strlen(pieces[PieceSelectID].namePiece); i++){
+                    wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
+                }
+                wprintf(L"\n");
+
+                //Entrée de la case d'arrivée de la piece
+                wprintf(L"Ou voulez vous vous déplacer ?\n Numero de la Ligne : ");
+                while(End[0] < 0 || End[0] >= size){
+                    scanf(" %d", &End[0]);
+                    End[0] = End[0] - 1;
+                }
+                wprintf(L" Lettre de colonne : ");
+                while(lettre < 'A' || lettre >= 'A' + size){
+                    scanf("%c", &lettre);
+                }
+                LetterToInt(lettre, &End[1]);
+                lettre = ' ';
+
+                //affichage du déplacement
+                /*wprintf(L"\nCase de départ : ");
+                for(i=0; i<2; i++){
+                    wprintf(L"%d", Start[i]);
+                }
+                wprintf(L"\nCase d'arrivée : ");
+                for(i=0; i<2; i++){
+                    wprintf(L"%d", End[i]);
+                }*/
+
+                //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
+                if(echiquier[End[0]][End[1]]!=' '){
+                    searchID(echiquier[End[0]][End[1]], &PieceBlockID, pieces);
+                }
+
+
+                /* FonctionCoup redirige vers une fonction propre a chaque piece qui verifie si le deplacement est possible
+                elle prend en parametre la lettre de la piece, la taille de l'echiquier, la case de départ, d'arrivée
+                l'id de la piece de départ, l'id de la potentille piece prise */
+                fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID, &PiecePriseID);
+
+                //On cherche la nom de la piece éventuellement prise lors du déplacement
+                if(PiecePriseID>=0 && PiecePriseID<=5){
+                    searchName(PiecePriseID, &PiecePriseName, pieces);
+                    findSprite(PiecePriseName);
+                    PiecesPrisesN[n]=PiecePriseName;
+                    n=n+1;
+                }
+                if(PiecePriseID>=6 && PiecePriseID<=11){
+                    searchName(PiecePriseID, &PiecePriseName, pieces);
+                    findSprite(PiecePriseName);
+                    PiecesPrisesB[m]=PiecePriseName;
+                    m=n+1;
+                }
+
+                //reset des variables
+                PiecePriseID=-1;
+                PiecePriseName = ' ';
+
+                //affichage de la situation finale
+                printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
+            }
+            else{
+                wprintf(L"\nPiece invalide, choisir une autre piece");
+            }
         }
-
-        wprintf(L"Piece selectionee : ");
-        for(i=0; i<strlen(pieces[PieceSelectID].namePiece); i++){
-            wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
-        }
-        wprintf(L"\n");
-
-        wprintf(L"Ou voulez vous vous déplacer ?\n Numero de la Ligne : ");
-        while(CaseEnd[0] < 0 || CaseEnd[0] >= size){
-            scanf(" %d", &CaseEnd[0]);
-            CaseEnd[0] = CaseEnd[0]-1;
-        }
-        wprintf(L"\n");
-
-        wprintf(L" Lettre de colonne : ");
-        while(lettre < 'A' || lettre >= 'A' + size){
-            scanf("%c", &lettre);
-        }
-        LetterToInt(lettre, &CaseEnd[1]);
-        lettre = ' ';
-
-
-        wprintf(L"Case de départ : \n");
-        for(i=0; i<2; i++){
-            wprintf(L"%d", CaseStart[i]);
-        }
-        wprintf(L"\n");
-        wprintf(L"Case d'arrivée : \n");
-        for(i=0; i<2; i++){
-            wprintf(L"%d", CaseEnd[i]);
-        }
-        wprintf(L"\n");
-
-        fonctionCoup(echiquier[CaseStart[0]][CaseStart[1]], size, echiquier, CaseStart, CaseEnd);
-
-        printEchiquier(size, echiquier);
 
         //reset des coups
-        CaseStart[0]=-1; CaseStart[1]=-1; CaseEnd[0]=-1; CaseEnd[1]=-1;
+        Start[0]=-1; Start[1]=-1; End[0]=-1; End[1]=-1;
 
-        wprintf(L"Pour aller au prochain coup, entrez 0, sinon\nPour quitter, entrez 2");
+        wprintf(L"\nPour aller au prochain coup, entrez 0, pour quitter, entrez 2");
         scanf("%d", &nextCoup);
     }
 }

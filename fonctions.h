@@ -9,7 +9,7 @@ void LetterToInt(char, int*);
 
 int pieceBlanche(int);
 
-void fonctionCoup(char, int size,  char[size][size], int[], int[]);
+void fonctionCoup(int size, char[size][size], int[], int[], int, int, int*);
 
 
 
