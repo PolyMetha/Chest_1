@@ -22,7 +22,7 @@ void menu (){
 
         do {                                 //Vérification de l'accisition de l'utilisateur.
             scanf("%d",&reponse);
-            if((reponse < 1 || reponse > 3) && strcmp(reponse, "oui")==0) { //N'affichera pas le message d'erreur si l'accisition de l'utilisateur est comprise entre 1 et 3.
+            if((reponse < 1 || reponse > 3)) { //N'affichera pas le message d'erreur si l'accisition de l'utilisateur est comprise entre 1 et 3.
                 wprintf(L"Vous devez entrez votre réponse entre 1 et 3");
             }
         }
@@ -31,7 +31,7 @@ void menu (){
         switch (reponse) {
             case 1 :
                 //fonction d'andréa
-                fonctEchequier();
+                fonctEchiquier();
                 quitterboolean = 1;
                 break;
             case 2 :

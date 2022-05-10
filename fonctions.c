@@ -50,3 +50,55 @@ void LetterToInt(char lettre, int * select){
             break;
     }
 }
+
+int pieceBlanche(int pieceID){
+    if(pieceID>=6){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+void fonctionCoup(char name, int size, char echiquier[size][size], int CaseDepart[],int CaseArrivee[]){
+    //lance la bonne fonction pour la piece selectionnée
+    switch(name){
+        case 'P':
+        dPion(size, echiquier, CaseDepart, CaseArrivee);
+            break;
+        case 'p':
+            dPion(size, echiquier, CaseDepart, CaseArrivee);
+            break;
+        case 'T':
+
+            break;
+        case 't':
+            break;
+        case 'C':
+
+            break;
+        case 'c':
+
+            break;
+        case 'F':
+
+            break;
+        case 'f':
+
+            break;
+        case 'Q':
+
+            break;
+        case 'q':
+
+            break;
+        case 'R':
+
+            break;
+        case 'r':
+
+            break;
+        default:
+            break;
+    }
+}

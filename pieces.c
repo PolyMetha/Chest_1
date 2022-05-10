@@ -53,3 +53,15 @@ void findSprite(char name){
             break;
     }
 }
+
+void dPion(int size, char echiquier[size][size], int CaseDepart[], int CaseArrivee[]){
+    char temp;
+    if(CaseArrivee[0]==CaseDepart[0]-1 && CaseArrivee[1]==CaseDepart[1]){
+        echiquier[CaseArrivee[0]][CaseArrivee[1]]=echiquier[CaseDepart[0]][CaseDepart[1]];
+        echiquier[CaseDepart[0]][CaseDepart[1]]=' ';
+        wprintf(L"%c   %c",echiquier[CaseArrivee[0]][CaseArrivee[1]],echiquier[CaseDepart[0]][CaseDepart[1]] );
+    }
+    else{
+        wprintf(L"Ca marche pas");
+    }
+}
