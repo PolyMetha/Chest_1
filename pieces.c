@@ -5,6 +5,7 @@
 #include "pieces.h"
 #include <io.h>
 #include <stdio.h>
+#include "echequier.h"
 
 void findSprite(char name){
     _setmode(_fileno(stdout), 0x00020000);
@@ -54,14 +55,23 @@ void findSprite(char name){
     }
 }
 
-void dPion(int size, char echiquier[size][size], int CaseDepart[], int CaseArrivee[]){
+void dPionB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID, int * PiecePriseNID){
     char temp;
-    if(CaseArrivee[0]==CaseDepart[0]-1 && CaseArrivee[1]==CaseDepart[1]){
-        echiquier[CaseArrivee[0]][CaseArrivee[1]]=echiquier[CaseDepart[0]][CaseDepart[1]];
-        echiquier[CaseDepart[0]][CaseDepart[1]]=' ';
-        wprintf(L"%c   %c",echiquier[CaseArrivee[0]][CaseArrivee[1]],echiquier[CaseDepart[0]][CaseDepart[1]] );
+    if((echiquier[Depart[0]][Depart[1]] == echiquier[size - 2][Depart[1]] && Arrivee[0] == Depart[0] - 2 && Arrivee[1] == Depart[1]) && echiquier[Arrivee[0]][Arrivee[1]]==' '){
+        echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+        echiquier[Depart[0]][Depart[1]]=' ';
+    }
+    else if((Arrivee[0] == Depart[0] - 1 && Arrivee[1] == Depart[1])&& echiquier[Arrivee[0]][Arrivee[1]]==' '){
+        echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+        echiquier[Depart[0]][Depart[1]]=' ';
+    }
+    //Condition de prise d'une piece, verification si piece noir et si la placement est bon
+    else if(pieceBlockID >= 0 && pieceBlockID < 6 && ((Arrivee[0] == Depart[0] - 1 && Arrivee[1] == Depart[1] - 1) || (Arrivee[0] == Depart[0] - 1 && Arrivee[1] == Depart[1] + 1))){
+        echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+        echiquier[Depart[0]][Depart[1]]=' ';
+        *PiecePriseNID=pieceBlockID;
     }
     else{
-        wprintf(L"Ca marche pas");
+        wprintf(L"La coup n'est pas autorisé");
     }
 }

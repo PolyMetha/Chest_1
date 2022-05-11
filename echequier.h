@@ -10,11 +10,10 @@ void fonctEchiquier();
 struct piece{
     int id;
     char name;
-    int dx[100];
-    int dy[100];
     char namePiece[20];
 };
 typedef struct piece piece;
 
-
+void searchID(char name, int *pieceID, piece pieces[]);
+void searchName(int, char*, piece[]);
 #endif //CHEST_1_ECHEQUIER_H
