@@ -225,18 +225,24 @@ void fonctEchiquier(){
 
     //Selection de la piece a deplacer
     while(nextCoup == 0){
-        wprintf(L"Quelle piece voulez vous deplacer ?\n Numero de la ligne : ");
-        while (Start[0] < 0 || Start[0] >= size) {
-            scanf(" %d", &Start[0]);
-            //le 1 affiché correspond au 0 echiquier
-            Start[0] = Start[0] - 1;
-        }
-        wprintf(L" Lettre de colonne : ");
+
+        wprintf(L"Quelle piece voulez vous deplacer ?\nLettre de colonne : ");
         while (lettre < 'A' || lettre >= 'A' + size) {
             scanf("%c", &lettre);
         }
         LetterToInt(lettre, &Start[1]);
         lettre = ' ';
+
+        wprintf(L"Numero de la ligne : ");
+        while (Start[0] < 0 || Start[0] >= size) {
+            scanf(" %d", &Start[0]);
+            //le 1 affiché correspond au 0 echiquier
+            Start[0] = Start[0] - 1;
+        }
+          
+        wprintf(L"\n");
+
+
 
         //verif si c'est une piece blanche, si case vide ou piece noire, choisir autre piece
         if(echiquier[Start[0]][Start[1]] != ' '){
@@ -312,6 +318,12 @@ void fonctEchiquier(){
         Start[0]=-1; Start[1]=-1; End[0]=-1; End[1]=-1;
 
         wprintf(L"\nPour aller au prochain coup, entrez 0, pour quitter, entrez 2");
+
         scanf("%d", &nextCoup);
     }
+    FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde
+    if(f!= NULL){ //vérification de l'ouverture
+       fprintf(f,"je ne sais quoi"); //Ecriture de l'echeuqier dans le ficher
+    }
+    fclose(f); // fermeture du fichier.
 }
