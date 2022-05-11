@@ -255,17 +255,18 @@ void fonctEchiquier(){
                 wprintf(L"\n");
 
                 //Entrée de la case d'arrivée de la piece
-                wprintf(L"Ou voulez vous vous déplacer ?\n Numero de la Ligne : ");
-                while(End[0] < 0 || End[0] >= size){
-                    scanf(" %d", &End[0]);
-                    End[0] = End[0] - 1;
-                }
-                wprintf(L" Lettre de colonne : ");
+                wprintf(L"Ou voulez vous vous déplacer ?\n Lettre de la colonne : ");
                 while(lettre < 'A' || lettre >= 'A' + size){
                     scanf("%c", &lettre);
                 }
                 LetterToInt(lettre, &End[1]);
                 lettre = ' ';
+
+                wprintf(L" Numero de la ligne : ");
+                while(End[0] < 0 || End[0] >= size){
+                    scanf(" %d", &End[0]);
+                    End[0] = End[0] - 1;
+                }
 
                 //affichage du déplacement
                 /*wprintf(L"\nCase de départ : ");
