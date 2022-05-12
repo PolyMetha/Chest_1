@@ -56,22 +56,48 @@ void findSprite(char name){
 }
 
 void dPionB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID, int * PiecePriseNID){
-    char temp;
-    if((echiquier[Depart[0]][Depart[1]] == echiquier[size - 2][Depart[1]] && Arrivee[0] == Depart[0] - 2 && Arrivee[1] == Depart[1]) && echiquier[Arrivee[0]][Arrivee[1]]==' '){
+    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1];
+
+    //si avant derniere ligne, coup  et rien ne bloque
+    if((echiquier[Depart[0]][Depart[1]] == echiquier[size - 2][Depart[1]] && (dx == -2) && Arrivee[1] == Depart[1]) && pieceBlockID==-1){
         echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
         echiquier[Depart[0]][Depart[1]]=' ';
     }
-    else if((Arrivee[0] == Depart[0] - 1 && Arrivee[1] == Depart[1])&& echiquier[Arrivee[0]][Arrivee[1]]==' '){
+    else if((dx == -1 && Arrivee[1] == Depart[1]) && pieceBlockID==-1){
         echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
         echiquier[Depart[0]][Depart[1]]=' ';
     }
     //Condition de prise d'une piece, verification si piece noir et si la placement est bon
-    else if(pieceBlockID >= 0 && pieceBlockID < 6 && ((Arrivee[0] == Depart[0] - 1 && Arrivee[1] == Depart[1] - 1) || (Arrivee[0] == Depart[0] - 1 && Arrivee[1] == Depart[1] + 1))){
+    else if(pieceBlockID < 6 && ((dx == -1 && dy == 1) || (dx == -1 && dy == -1))){
         echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
         echiquier[Depart[0]][Depart[1]]=' ';
         *PiecePriseNID=pieceBlockID;
     }
     else{
-        wprintf(L"La coup n'est pas autorisé");
+        wprintf(L"Le coup n'est pas autorisé");
     }
 }
+
+void dCavalierB(int size, char echiquier[size][size],int Depart[], int Arrivee[], int pieceBlockID, int * PiecePriseNID){
+    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1];
+
+    //Si l'un des deplacements est egal a 1 ou -1 et que l'autre est egal a 2*deplacement ou -2*deplacement
+    if((dx==1 || dx==-1 || dy==1 || dy==-1)
+    && ( dx==-2*dy || dx==2*dy || dy == -2*dx || dy == 2 * dx) ){
+        if(pieceBlockID==-1){
+            echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+            echiquier[Depart[0]][Depart[1]]=' ';
+        }
+        else if(pieceBlockID<6){
+            echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+            echiquier[Depart[0]][Depart[1]]=' ';
+            *PiecePriseNID = pieceBlockID;
+        }
+        else{
+            wprintf(L"Piece blanche bloquante");
+        }
+    }
+    else{
+        wprintf(L"Le coup n'est pas autorisé\n");
+    }
+};

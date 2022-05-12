@@ -63,11 +63,9 @@ int pieceBlanche(int pieceID){
 void fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int CaseArrivee[], int PieceID, int PieceBlockID, int * PiecePriseID){
     //lance la bonne fonction pour la piece selectionnée
     switch(PieceID){
-        case 0:
-            dPionB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+        case 0: //pion Noir
             break;
-        case 1:
-
+        case 1: //Cavalier Noir
             break;
         case 2:
 
@@ -84,7 +82,7 @@ void fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int Ca
             dPionB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
             break;
         case 7:
-
+            dCavalierB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
             break;
         case 8:
 
