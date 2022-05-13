@@ -85,7 +85,7 @@ void fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int Ca
             dCavalierB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
             break;
         case 8:
-
+            dFouB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
             break;
         case 9:
 

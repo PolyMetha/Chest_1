@@ -101,3 +101,33 @@ void dCavalierB(int size, char echiquier[size][size],int Depart[], int Arrivee[]
         wprintf(L"Le coup n'est pas autorisé\n");
     }
 };
+
+void dFouB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID,int *PiecePriseNID){
+    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], trajet=0, i;
+    if(dx==dy || dx == -dy){
+        for(i=0; i<dx; i++){
+            if(echiquier[Depart[0]+dx+i][Depart[1]+dy+i]!=' '){
+                trajet=1; //il y a une piece sur le passage
+            }
+        }
+
+        if(trajet==0){
+            if(pieceBlockID==-1){
+
+                echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+                echiquier[Depart[0]][Depart[1]]=' ';
+            }
+            else if(pieceBlockID<6){
+                echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+                echiquier[Depart[0]][Depart[1]]=' ';
+                *PiecePriseNID = pieceBlockID;
+            }
+            else{
+                wprintf(L"Piece blanche bloquante");
+            }
+        }
+        else{
+            wprintf(L"Une piece bloque le trajet");
+        }
+    }
+}
