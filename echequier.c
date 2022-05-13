@@ -324,6 +324,12 @@ void fonctEchiquier(){
     FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde
     if(f!= NULL){ //vérification de l'ouverture
        fprintf(f,"je ne sais quoi"); //Ecriture de l'echeuqier dans le ficher
+        /*
+        * if(joueur_win == 1 || joueur_win == 0){
+        *      fprintf(f," ");
+        *      }
+        */
     }
     fclose(f); // fermeture du fichier.
+
 }
