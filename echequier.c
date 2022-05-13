@@ -316,7 +316,7 @@ void fonctEchiquier(){
         }
 
         //reset des coups
-        Start[0]=-1; Start[1]=-1; End[0]=-1; End[1]=-1;
+        Start[0]=-1; Start[1]=-1; End[0]=-1; End[1]=-1;PieceSelectID=-1, PieceBlockID=-1,PiecePriseID=-1;
 
         wprintf(L"\nPour aller au prochain coup, entrez 0, pour quitter, entrez 2");
 
