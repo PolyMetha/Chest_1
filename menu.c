@@ -32,12 +32,10 @@ void menu (){
         system("cls");
         switch (reponse) {
             case 1 :
-                //fonction d'andréa
                 fonctEchiquier();
                 quitterboolean = 0;
                 break;
             case 2 :
-                // le fameux ficher sauvegarde que inchallah je sais pas comment codé ca.
                 savefile();
                 quitterboolean = 0;
                 break;
