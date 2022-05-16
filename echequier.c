@@ -321,9 +321,15 @@ void fonctEchiquier(){
 
         scanf("%d", &nextCoup);
     }
-    FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde
+    FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
     if(f!= NULL){ //vérification de l'ouverture
-       fprintf(f,"je ne sais quoi"); //Ecriture de l'echeuqier dans le ficher
+        for(x=0; i<size;x++){
+            for(y=0;y<size;y++) {
+                fprintf(f,"%s",echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
+            }
+        }
+
+
         /*
         * if(joueur_win == 1 || joueur_win == 0){
         *      fprintf(f," ");

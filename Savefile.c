@@ -14,7 +14,6 @@ void savefile(){
     if (f!=NULL){ //vérification de l'ouverture
         fgets(save_echiquier,1000,f); //lecture du fichier
         wprintf(L"%s",save_echiquier);
-
     }if (save_echiquier[0] == ' '){                                         //vérification d'enregistrement de la partie
         wprintf(L"Il n'y a aucune partie enregistré\n");             //(la partie n'est pas enregistré si le joueur gagne ou perd)
         menu();                                                            //(on affiche le caractère ' ' dans le fichier, on vérifie donc cette information)
