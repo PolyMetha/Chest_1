@@ -29,7 +29,6 @@ void menu (){
                 wprintf(L"Vous devez entrez votre réponse entre 1 et 3");
             }
         }while(reponse < 1 || reponse > 3);
-        system("cls");
         switch (reponse) {
             case 1 :
                 fonctEchiquier();
@@ -46,7 +45,6 @@ void menu (){
                 quitterboolean = strcmp(quitter, "oui");
                 if(quitterboolean == 0){
                     wprintf(L"A bientot\n");
-                    Sleep(1000);
                 }
                 break;
         }
