@@ -3,25 +3,28 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <io.h>
 #include "Savefile.h"
 #include "menu.h"
 
-int savefile(){
+int savefile() {
     _setmode(_fileno(stdout), 0x00020000);
-    char save_echiquier[1000];
-    FILE* f = fopen("Save.txt","r"); // ouverture du fichier en mode lecture
-    if (f!=NULL){ //vérification de l'ouverture
-        while(fgets(save_echiquier,1000,f)!=NULL){
-            puts(save_echiquier);
-        } //lecture du fichier
-    }else{
-        wprintf(L"raté");
+    int taille;
+
+    FILE *d = fopen("Size.txt", "r");
+    if (d != NULL) {
+        fscanf(d, "%d", &taille);
+        wprintf(L"%d\n", taille);
     }
-    if (save_echiquier[0] == ' '){                                         //vérification d'enregistrement de la partie
-        wprintf(L"Il n'y a aucune partie enregistré\n");//(la partie n'est pas enregistré si le joueur gagne ou perd)
-        return 1;
-        menu();                                                            //(on affiche le caractère ' ' dans le fichier, on vérifie donc cette information)
-    }else{return 0;}
-    fclose(f);
+    char save_echiquier[taille+1];
+    FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
+    if (f != NULL) { //vérification de l'ouverture
+        for (int i = 0; i < taille + 5; i++) {
+            fgets(save_echiquier, taille+1, f);
+            wprintf(L"%s", save_echiquier);
+        } //lecture du fichier
+
+
+    }
 }

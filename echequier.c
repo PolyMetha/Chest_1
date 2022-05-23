@@ -7,6 +7,7 @@
 #include "pieces.h"
 #include "fonctions.h"
 #include "savefile.h"
+#include "menu.h"
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
@@ -323,23 +324,23 @@ void fonctEchiquier(){
 
         scanf("%d", &nextCoup);
     }
-
-    /* FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
+    FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
     if(f!= NULL){ //vérification de l'ouverture
-        for(x=0; x<size;x++){
-            for(y=0;y<size;y++) {
-                fprintf(f,"%c",echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
+        for(x=0; x<size;x++) {
+            for (y = 0; y < size; y++) {
+                fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
             }
-            fprintf(f,"\n");
+            fprintf(f, "\n");
         }
-        fprintf(f,"\nTaille :%d",size);
-
-        *
-        * if(joueur_win == 1 || joueur_win == 0){
-        *      fprintf(f," ");
-        *      }
-        *
+        fprintf(f,"\nTaille : %d",size);
     }
-    fclose(f);*/
+    fclose(f);
 
+    FILE* d = fopen("Size.txt","w");
+
+    if(d != NULL){
+        fprintf(d,"%d",size);
+    }
+    fclose(d);
+    menu();
 }
