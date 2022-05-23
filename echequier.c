@@ -89,34 +89,7 @@ void searchName(int ID, char* name, piece pieces[]){  //Recherche un nom pour un
     }
 }
 
-void fonctEchiquier(){
-    int size=0;
-
-    struct piece pieces[12] = {
-            0,'p',"Pion noir",
-            1,'c',"Cavalier Noir",
-            2,'f',"Fou Noir",
-            3,'t',"Tour Noire",
-            4,'q',"Reine Noire",
-            5,'r',"Roi Noir",
-
-            6,'P',"Pion Blanc",
-            7,'C', "Cavalier Blanc",
-            8,'F',"Fou Blanc",
-            9,'T',"Tour Blache",
-            10,'Q',"Reine Blanche",
-            11,'R',"Roi Blanc"
-    };
-
-    //input de la taille de l'échequier
-    wprintf(L"Entrez la taille de l'echiquier\n");
-    scanf("%d", &size);
-    while(size<6 || size>12){
-        wprintf(L"La valeur doit etre comprise entre 6 et 12");
-        scanf("%d", &size);
-    }
-
-    char echiquier[size][size];
+void generation(piece pieces[], int size, char echiquier[size][size]){
 
     //remplissage de l'echiquier
     int x, y, i , idPiece, compteurRoi=0;
@@ -125,12 +98,12 @@ void fonctEchiquier(){
         for(y=0; y < size; y++){
             idPiece = rand()%6;
             for(i=0;i<=5;i++){
-               if(idPiece == pieces[i].id){
-                   echiquier[x][y]=pieces[i].name;
-                 }
-               }
+                if(idPiece == pieces[i].id){
+                    echiquier[x][y]=pieces[i].name;
+                }
             }
         }
+    }
     for(x=2; x<size-2; x++){            //lignes intermédiaires
         for(y=0; y<size; y++){
             echiquier[x][y] = ' ';
@@ -162,11 +135,11 @@ void fonctEchiquier(){
                         }
                     }
                 }
-                }
+            }
             if(compteurRoi==0){
-                echiquier[x][rand() % size]='r';
+                echiquier[x][rand() %size]='r';
             }
-            }
+        }
         if(x==1){
             for(y=0; y<size; y++){
                 if(echiquier[x][y] == 'r'){
@@ -209,15 +182,15 @@ void fonctEchiquier(){
                 }
             }
             if(compteurRoi==0){
-                echiquier[x][rand() % size]='R';
+                echiquier[x][rand() %size]='R';
             }
         }
     }
 
+}
 
-
-
-    int Start[2]={-1, -1},End[2]={-1, -1}, n=0, m=0;      //Cases de départ et d'arrivée et compteurs
+void jeu(int size, char echiquier[size][size], piece pieces[]){
+    int Start[2]={-1, -1},End[2]={-1, -1}, n=0, m=0, i;      //Cases de départ et d'arrivée et compteurs
     int PieceSelectID=-1, PieceBlockID=-1,PiecePriseID=-1, nextCoup=0; //ID de la piece selectionnée et la piece bloquante lors du coup
     char lettre, PiecePriseName, PiecesPrisesB[2*size], PiecesPrisesN[2*size];    //Lettre de la colonne
 
@@ -240,7 +213,7 @@ void fonctEchiquier(){
             //le 1 affiché correspond au 0 echiquier
             Start[0] = Start[0] - 1;
         }
-          
+
         wprintf(L"\n");
 
 
@@ -323,23 +296,36 @@ void fonctEchiquier(){
 
         scanf("%d", &nextCoup);
     }
+}
 
-    /* FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
-    if(f!= NULL){ //vérification de l'ouverture
-        for(x=0; x<size;x++){
-            for(y=0;y<size;y++) {
-                fprintf(f,"%c",echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
-            }
-            fprintf(f,"\n");
-        }
-        fprintf(f,"\nTaille :%d",size);
+void fonctEchiquier(){
 
-        *
-        * if(joueur_win == 1 || joueur_win == 0){
-        *      fprintf(f," ");
-        *      }
-        *
+    struct piece pieces[12] = {
+            0,'p',"Pion noir",
+            1,'c',"Cavalier Noir",
+            2,'f',"Fou Noir",
+            3,'t',"Tour Noire",
+            4,'q',"Reine Noire",
+            5,'r',"Roi Noir",
+
+            6,'P',"Pion Blanc",
+            7,'C', "Cavalier Blanc",
+            8,'F',"Fou Blanc",
+            9,'T',"Tour Blache",
+            10,'Q',"Reine Blanche",
+            11,'R',"Roi Blanc"
+    };
+
+    int size=0;
+    //input de la taille de l'échequier
+    wprintf(L"Entrez la taille de l'echiquier\n");
+    scanf("%d", &size);
+    while(size<6 || size>12){
+        wprintf(L"La valeur doit etre comprise entre 6 et 12");
+        scanf("%d", &size);
     }
-    fclose(f);*/
+    char echiquier[size][size];
+    generation(pieces, size, echiquier);
 
+    jeu(size, echiquier, pieces);
 }

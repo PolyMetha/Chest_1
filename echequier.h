@@ -6,7 +6,9 @@
 #define CHEST_1_ECHEQUIER_H
 
 void fonctEchiquier();
-
+/**
+ *
+ */
 struct piece{
     int id;
     char name;
