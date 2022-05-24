@@ -4,17 +4,12 @@
 
 #ifndef CHEST_1_ECHEQUIER_H
 #define CHEST_1_ECHEQUIER_H
+#include "menu.h"
 
-void fonctEchiquier();
+void fonctEchiquier(piece pieces[]);
 /**
  *
  */
-struct piece{
-    int id;
-    char name;
-    char namePiece[20];
-};
-typedef struct piece piece;
 
 void searchID(char name, int *pieceID, piece pieces[]);
 void searchName(int, char*, piece[]);
