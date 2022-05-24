@@ -7,6 +7,7 @@
 #include "pieces.h"
 #include "fonctions.h"
 #include "savefile.h"
+#include "menu.h"
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
@@ -296,7 +297,6 @@ void jeu(int size, char echiquier[size][size], piece pieces[]){
 
         scanf("%d", &nextCoup);
     }
-}
 
 void fonctEchiquier(){
 
@@ -328,4 +328,25 @@ void fonctEchiquier(){
     generation(pieces, size, echiquier);
 
     jeu(size, echiquier, pieces);
+  
+  FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
+    if(f!= NULL){ //vérification de l'ouverture
+        for(x=0; x<size;x++) {
+            for (y = 0; y < size; y++) {
+                fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
+            }
+            fprintf(f, "\n");
+        }
+        fprintf(f,"\nTaille : %d",size);
+    }
+    fclose(f);
+
+    FILE* d = fopen("Size.txt","w");
+
+    if(d != NULL){
+        fprintf(d,"%d",size);
+    }
+    fclose(d);
+    menu();
+}
 }
