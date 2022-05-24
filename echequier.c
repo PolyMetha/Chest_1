@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "pieces.h"
 #include "fonctions.h"
-#include "savefile.h"
 #include "menu.h"
 #include <time.h>
 #include <stdlib.h>
@@ -205,6 +204,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
 
         wprintf(L"Tour des blancs");
         wprintf(L"Quelle piece voulez vous deplacer ?\nLettre de colonne : ");
+
         while (lettre < 'A' || lettre >= 'A' + size) {
             scanf("%c", &lettre);
         }
@@ -219,7 +219,6 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
         }
 
         wprintf(L"\n");
-
 
         //verif si c'est une piece blanche, si case vide ou piece noire, choisir autre piece
         if (echiquier[Start[0]][Start[1]] != ' ') {
@@ -342,13 +341,17 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
                 fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID, &PiecePriseID);
 
                 //On cherche la nom de la piece éventuellement prise lors du déplacement
+
                 if (PiecePriseID >= 6 && PiecePriseID <= 11) {
+
                     searchName(PiecePriseID, &PiecePriseName, pieces);
                     findSprite(PiecePriseName);
                     PiecesPrisesN[n] = PiecePriseName;
                     n = n + 1;
                 }
+
                 if (PiecePriseID >= 0 && PiecePriseID <= 5) {
+
                     searchName(PiecePriseID, &PiecePriseName, pieces);
                     findSprite(PiecePriseName);
                     PiecesPrisesB[m] = PiecePriseName;
@@ -379,6 +382,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
     }
 }
 
+
 void fonctEchiquier(piece pieces[]){
 
     int size=0, x, y;
@@ -388,29 +392,35 @@ void fonctEchiquier(piece pieces[]){
     while(size<6 || size>12){
         wprintf(L"La valeur doit etre comprise entre 6 et 12");
         scanf("%d", &size);
-    }
-    char echiquier[size][size];
-    generation(pieces, size, echiquier);
-
-    jeu(size, echiquier, pieces);
-  
-  FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
-    if(f!= NULL){ //vérification de l'ouverture
-        for(x=0; x<size;x++) {
-            for (y = 0; y < size; y++) {
-                fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
-            }
-            fprintf(f, "\n");
+        while (size < 6 || size > 12) {
+            wprintf(L"La valeur doit etre comprise entre 6 et 12");
+            scanf("%d", &size);
         }
-        fprintf(f,"\nTaille : %d",size);
-    }
-    fclose(f);
+        char echiquier[size][size];
+        generation(pieces, size, echiquier);
 
-    FILE* d = fopen("Size.txt","w");
+        jeu(size, echiquier, pieces);
 
-    if(d != NULL){
-        fprintf(d,"%d",size);
+        FILE *f = fopen("Save.txt",
+                        "w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
+        if (f != NULL) { //vérification de l'ouverture
+            for (int x = 0; x < size; x++) {
+                for (int y = 0; y < size; y++) {
+                    fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
+                }
+            }
+        }
+        fclose(f);
+
+        FILE *d = fopen("Size.txt", "w");
+
+        if (d != NULL) {
+            fprintf(d, "%d", size);
+        }
+        fclose(d);
+        menu();
     }
     fclose(d);
     menu();
 }
+
