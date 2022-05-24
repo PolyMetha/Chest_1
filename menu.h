@@ -12,5 +12,11 @@ struct piece{
 };
 typedef struct piece piece;
 void menu();
+struct piece{
+    int id;
+    char name;
+    char namePiece[20];
+};
+typedef struct piece piece;
 
 #endif //CHEST_1_MENU_H

@@ -31,6 +31,7 @@ void menu (){
             10,'Q',"Reine Blanche",
             11,'R',"Roi Blanc"
     };
+
     while(quitterboolean != 0){
         wprintf(L"\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\n");
         wprintf(L"1 - Demarrer une partie\n");

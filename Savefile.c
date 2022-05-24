@@ -7,8 +7,10 @@
 #include <io.h>
 #include "Savefile.h"
 #include "menu.h"
+#include "echequier.h"
+#include "echequier.c"
 
-int savefile() {
+void savefile(piece pieces[]) {
     _setmode(_fileno(stdout), 0x00020000);
     int taille;
 
@@ -17,14 +19,15 @@ int savefile() {
         fscanf(d, "%d", &taille);
         wprintf(L"%d\n", taille);
     }
-    char save_echiquier[taille+1];
+    char save_echiquier[taille][taille];
     FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
     if (f != NULL) { //vérification de l'ouverture
-        for (int i = 0; i < taille + 5; i++) {
-            fgets(save_echiquier, taille+1, f);
-            wprintf(L"%s", save_echiquier);
-        } //lecture du fichier
-
-
+        for (int i = 0; i < taille; i++) {
+            for (int j = 0; j < taille; j++) {
+                fscanf(save_echiquier[i][j], "%c", f);
+                wprintf(L"%c",save_echiquier);
+            }
+        }//lecture du fichier
+        jeu(taille, save_echiquier, pieces);
     }
 }
