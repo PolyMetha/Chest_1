@@ -282,6 +282,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
                 //affichage de la situation finale
                 printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
             } else {
+
                 wprintf(L"\nPiece invalide, choisir une autre piece");
             }
         }
@@ -376,12 +377,12 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
         End[1] = -1;
         PieceSelectID = -1, PieceBlockID = -1, PiecePriseID = -1;
 
-
         wprintf(L"\nPour aller au prochain coup, entrez 0, pour quitter, entrez 2");
 
         scanf("%d", &nextCoup);
     }
 }
+
 
 void fonctEchiquier(piece pieces[]){
 
@@ -392,29 +393,31 @@ void fonctEchiquier(piece pieces[]){
     while(size<6 || size>12){
         wprintf(L"La valeur doit etre comprise entre 6 et 12");
         scanf("%d", &size);
-    }
-    char echiquier[size][size];
-    generation(pieces, size, echiquier);
-
-    jeu(size, echiquier, pieces);
-  
-  FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
-    if(f!= NULL){ //vérification de l'ouverture
-        for(x=0; x<size;x++) {
-            for (y = 0; y < size; y++) {
-                fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
-            }
-            fprintf(f, "\n");
+        while (size < 6 || size > 12) {
+            wprintf(L"La valeur doit etre comprise entre 6 et 12");
+            scanf("%d", &size);
         }
-        fprintf(f,"\nTaille : %d",size);
-    }
-    fclose(f);
+        char echiquier[size][size];
+        generation(pieces, size, echiquier);
 
-    FILE* d = fopen("Size.txt","w");
+        jeu(size, echiquier, pieces);
 
-    if(d != NULL){
-        fprintf(d,"%d",size);
+        FILE *f = fopen("Save.txt",
+                        "w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
+        if (f != NULL) { //vérification de l'ouverture
+            for (int x = 0; x < size; x++) {
+                for (int y = 0; y < size; y++) {
+                    fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
+                }
+            }
+        }
+        fclose(f);
+
+        FILE *d = fopen("Size.txt", "w");
+
+        if (d != NULL) {
+            fprintf(d, "%d", size);
+        }
+        fclose(d);
+        menu();
     }
-    fclose(d);
-    menu();
-}
