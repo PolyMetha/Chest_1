@@ -5,6 +5,12 @@
 #ifndef CHEST_1_MENU_H
 #define CHEST_1_MENU_H
 
+struct piece{
+    int id;
+    char name;
+    char namePiece[20];
+};
+typedef struct piece piece;
 void menu();
 struct piece{
     int id;
