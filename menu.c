@@ -16,6 +16,22 @@ void menu (){
     int reponse;
     char quitter[3] = "oui";
     int quitterboolean = 1;
+    struct piece pieces[12] = {
+            0,'p',"Pion noir",
+            1,'c',"Cavalier Noir",
+            2,'f',"Fou Noir",
+            3,'t',"Tour Noire",
+            4,'q',"Reine Noire",
+            5,'r',"Roi Noir",
+
+            6,'P',"Pion Blanc",
+            7,'C', "Cavalier Blanc",
+            8,'F',"Fou Blanc",
+            9,'T',"Tour Blache",
+            10,'Q',"Reine Blanche",
+            11,'R',"Roi Blanc"
+    };
+
     while(quitterboolean != 0){
         wprintf(L"\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\n");
         wprintf(L"1 - Demarrer une partie\n");
@@ -31,7 +47,7 @@ void menu (){
         }while(reponse < 1 || reponse > 3);
         switch (reponse) {
             case 1 :
-                fonctEchiquier();
+                fonctEchiquier(pieces);
                 quitterboolean = 0;
                 break;
             case 2 :

@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "pieces.h"
 #include "fonctions.h"
-#include "savefile.h"
 #include "menu.h"
 #include <time.h>
 #include <stdlib.h>
@@ -201,7 +200,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
     //Selection de la piece a deplacer
     while (nextCoup == 0) {
 
-        wprintf(L"Quelle piece voulez vous deplacer ?\nLettre de colonne : ");
+        wprintf(L"Tour des bancs :\nQuelle piece voulez vous deplacer ?\nLettre de colonne : ");
         while (lettre < 'A' || lettre >= 'A' + size) {
             scanf("%c", &lettre);
         }
@@ -216,8 +215,6 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
         }
 
         wprintf(L"\n");
-
-
 
         //verif si c'est une piece blanche, si case vide ou piece noire, choisir autre piece
         if (echiquier[Start[0]][Start[1]] != ' ') {
@@ -285,6 +282,90 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
                 //affichage de la situation finale
                 printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
             } else {
+
+                wprintf(L"\nPiece invalide, choisir une autre piece");
+            }
+        }
+
+        //reset des coups
+        Start[0] = -1;
+        Start[1] = -1;
+        End[0] = -1;
+        End[1] = -1;
+        PieceSelectID = -1, PieceBlockID = -1, PiecePriseID = -1;
+
+
+        wprintf(L"Tour des noirs :\nQuelle piece voulez vous deplacer ?\nLettre de colonne : ");
+        while (lettre < 'A' || lettre >= 'A' + size) {
+            scanf("%c", &lettre);
+        }
+        LetterToInt(lettre, &Start[1]);
+        lettre = ' ';
+
+        wprintf(L"Numero de la ligne : ");
+        while (Start[0] < 0 || Start[0] >= size) {
+            scanf(" %d", &Start[0]);
+            //le 1 affiché correspond au 0 echiquier
+            Start[0] = Start[0] - 1;
+        }
+
+        wprintf(L"\n");
+
+        //verif si c'est une piece noire, si case vide ou piece noire, choisir autre piece
+        if (echiquier[Start[0]][Start[1]] != ' ') {
+            searchID(echiquier[Start[0]][Start[1]], &PieceSelectID, pieces);
+            if (PieceSelectID < 6) {
+                wprintf(L"Piece selectionee : ");
+                for (i = 0; i < strlen(pieces[PieceSelectID].namePiece); i++) {
+                    wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
+                }
+                wprintf(L"\n");
+
+                //Entrée de la case d'arrivée de la piece
+                wprintf(L"Ou voulez vous vous déplacer ?\n Lettre de la colonne : ");
+                while (lettre < 'A' || lettre >= 'A' + size) {
+                    scanf("%c", &lettre);
+                }
+                LetterToInt(lettre, &End[1]);
+                lettre = ' ';
+
+                wprintf(L" Numero de la ligne : ");
+                while (End[0] < 0 || End[0] >= size) {
+                    scanf(" %d", &End[0]);
+                    End[0] = End[0] - 1;
+                }
+
+                //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
+                if (echiquier[End[0]][End[1]] != ' ') {
+                    searchID(echiquier[End[0]][End[1]], &PieceBlockID, pieces);
+                }
+
+                /* FonctionCoup redirige vers une fonction propre a chaque piece qui verifie si le deplacement est possible
+                elle prend en parametre la lettre de la piece, la taille de l'echiquier, la case de départ, d'arrivée
+                l'id de la piece de départ, l'id de la potentille piece prise */
+                fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID, &PiecePriseID);
+
+                //On cherche la nom de la piece éventuellement prise lors du déplacement
+                if (PiecePriseID >= 0 && PiecePriseID <= 5) {
+                    searchName(PiecePriseID, &PiecePriseName, pieces);
+                    findSprite(PiecePriseName);
+                    PiecesPrisesN[n] = PiecePriseName;
+                    n = n + 1;
+                }
+                if (PiecePriseID >= 6 && PiecePriseID <= 11) {
+                    searchName(PiecePriseID, &PiecePriseName, pieces);
+                    findSprite(PiecePriseName);
+                    PiecesPrisesB[m] = PiecePriseName;
+                    m = n + 1;
+                }
+
+                //reset des variables
+                PiecePriseID = -1;
+                PiecePriseName = ' ';
+
+                //affichage de la situation finale
+                printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
+            } else {
                 wprintf(L"\nPiece invalide, choisir une autre piece");
             }
         }
@@ -301,29 +382,16 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
         scanf("%d", &nextCoup);
     }
 }
-struct piece pieces[12] = {
-        0,'p',"Pion noir",
-        1,'c',"Cavalier Noir",
-        2,'f',"Fou Noir",
-        3,'t',"Tour Noire",
-        4,'q',"Reine Noire",
-        5,'r',"Roi Noir",
-
-        6,'P',"Pion Blanc",
-        7,'C', "Cavalier Blanc",
-        8,'F',"Fou Blanc",
-        9,'T',"Tour Blache",
-        10,'Q',"Reine Blanche",
-        11,'R',"Roi Blanc"
-};
 
 
-    void fonctEchiquier() {
+void fonctEchiquier(piece pieces[]){
 
-
-        int size = 0;
-        //input de la taille de l'échequier
-        wprintf(L"Entrez la taille de l'echiquier\n");
+    int size=0, x, y;
+    //input de la taille de l'échequier
+    wprintf(L"Entrez la taille de l'echiquier\n");
+    scanf("%d", &size);
+    while(size<6 || size>12){
+        wprintf(L"La valeur doit etre comprise entre 6 et 12");
         scanf("%d", &size);
         while (size < 6 || size > 12) {
             wprintf(L"La valeur doit etre comprise entre 6 et 12");
