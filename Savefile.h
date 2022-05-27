@@ -4,5 +4,5 @@
 
 #ifndef CHEST_1_SAVEFILE_H
 #define CHEST_1_SAVEFILE_H
-int savefile();
+void savefile();
 #endif //CHEST_1_SAVEFILE_H

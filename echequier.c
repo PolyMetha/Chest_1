@@ -393,16 +393,19 @@ void fonctEchiquier(piece pieces[]){
     generation(pieces, size, echiquier);
 
     jeu(size, echiquier, pieces);
-  
+    /*
+     * Cette partie de ce programme sert a enregistrer l'échiquier dans un fichier, puis la taille de celui-ci dans un
+     * autre fichier. L'enregistrement de l'échiquier se fait caractère par caractère et le fichier "size" ne contiens
+     * que la taille. Les fichiers sont fermés après utilisation.
+     */
+
   FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
     if(f!= NULL){ //vérification de l'ouverture
         for(x=0; x<size;x++) {
             for (y = 0; y < size; y++) {
                 fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
             }
-            fprintf(f, "\n");
         }
-        fprintf(f,"\nTaille : %d",size);
     }
     fclose(f);
 
