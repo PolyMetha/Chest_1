@@ -24,18 +24,19 @@ void savefile() {
     }
     fclose(d);
     char save_echiquier[taille][taille];
-    char c,*pc;
-    pc = &c;
+    char c[10];
+
     FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
     if (f != NULL) { //vérification de l'ouverture
+        rewind(f);
         for (int x = 0; x < taille; x++){
             for (int y = 0; y < taille; y++) {
-                if(fgets(pc,1,f) != NULL){
-                    save_echiquier[x][y] = c;
+                if(fgets(c,2,f) != NULL){
+                    save_echiquier[x][y] = c[0];
                     printf("%c",save_echiquier[x][y]);
-                };
-
+                }
             }
+            printf("\n");
         }
     }
 }
