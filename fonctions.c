@@ -60,43 +60,50 @@ int pieceBlanche(int pieceID){
     }
 }
 
-void fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int CaseArrivee[], int PieceID, int PieceBlockID, int * PiecePriseID){
+void fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int CaseArrivee[], int PieceID, int PieceBlockID, int * PiecePriseID, int *coupFait){
     //lance la bonne fonction pour la piece selectionnée
     switch(PieceID){
         case 0: //pion Noir
+            dPion(size, echiquier, CaseDepart, CaseArrivee, PieceID , PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 1: //Cavalier Noir
+            dCavalier(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 2:
-
+            dFou(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 3:
+            dTour(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 4:
-
+            dReine(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 5:
-
+            dRoi(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 6:
-            dPionB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+            dPion(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 7:
-            dCavalierB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+            dCavalier(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 8:
-            dFouB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+            dFou(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 9:
-            dTourB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+            dTour(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 10:
-            dReineB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+            dReine(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         case 11:
-            dRoiB(size, echiquier, CaseDepart, CaseArrivee, PieceBlockID, &*PiecePriseID);
+            dRoi(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID, &*coupFait);
             break;
         default:
             break;
     }
 }
+
+void verifEchec(){
+
+};

@@ -7,11 +7,11 @@
 
 void findSprite(char);
 
-void dPionB(int size, char echiquier[size][size], int[], int[], int, int*);
-void dCavalierB(int size, char echiquier[size][size], int[], int[], int, int*);
-void dFouB(int size, char echiquier[size][size], int[], int[], int, int*);
-void dTourB(int size, char echiquier[size][size], int[], int[], int, int*);
-void dReineB(int size, char echiquier[size][size], int[], int[], int, int*);
-void dRoiB(int size, char echiquier[size][size], int[], int[], int, int*);
+void dPion(int size, char echiquier[size][size], int[], int[], int,int, int*, int*);
+void dCavalier(int size, char echiquier[size][size], int[], int[], int,int, int*, int*);
+void dFou(int size, char echiquier[size][size], int[], int[], int,int, int*, int*);
+void dTour(int size, char echiquier[size][size], int[], int[], int,int, int*, int*);
+void dReine(int size, char echiquier[size][size], int[], int[], int,int, int*, int*);
+void dRoi(int size, char echiquier[size][size], int[], int[], int,int, int*, int*);
 
 #endif //CHEST_1_PIECES_H

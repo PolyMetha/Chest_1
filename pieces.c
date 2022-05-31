@@ -57,162 +57,324 @@ void findSprite(char name){
     }
 }
 
-void dPionB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID, int * PiecePriseNID){
+void dPion(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int * PiecePriseNID, int * coupFait){
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1];
 
-    //si avant derniere ligne, coup  et rien ne bloque
-    if((echiquier[Depart[0]][Depart[1]] == echiquier[size - 2][Depart[1]] && (dx == -2) && Arrivee[1] == Depart[1]) && pieceBlockID==-1){
-        echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
-        echiquier[Depart[0]][Depart[1]]=' ';
-    }
-    else if((dx == -1 && Arrivee[1] == Depart[1]) && pieceBlockID==-1){
-        echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
-        echiquier[Depart[0]][Depart[1]]=' ';
-    }
-    //Condition de prise d'une piece, verification si piece noir et si la placement est bon
-    else if(pieceBlockID < 6 && ((dx == -1 && dy == 1) || (dx == -1 && dy == -1))){
-        echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
-        echiquier[Depart[0]][Depart[1]]=' ';
-        *PiecePriseNID=pieceBlockID;
+    if(pieceID > 5){
+        //si avant derniere ligne, coup  et rien ne bloque
+        if ((echiquier[Depart[0]][Depart[1]] == echiquier[size - 2][Depart[1]] && (dx == -2) &&
+             Arrivee[1] == Depart[1]) && pieceBlockID == -1) {
+            echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+            echiquier[Depart[0]][Depart[1]] = ' ';
+        } else if ((dx == -1 && Arrivee[1] == Depart[1]) && pieceBlockID == -1) {
+            echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+            echiquier[Depart[0]][Depart[1]] = ' ';
+        }
+            //Condition de prise d'une piece, verification si piece noir et si la placement est bon
+        else if (pieceBlockID < 6 && ((dx == -1 && dy == 1) || (dx == -1 && dy == -1))) {
+            echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+            echiquier[Depart[0]][Depart[1]] = ' ';
+            *PiecePriseNID = pieceBlockID;
+        } else {
+            wprintf(L"Le coup n'est pas autorisé");
+            *coupFait = 1;
+        }
     }
     else{
-        wprintf(L"Le coup n'est pas autorisé");
-    }
-}
-
-void dCavalierB(int size, char echiquier[size][size],int Depart[], int Arrivee[], int pieceBlockID, int * PiecePriseNID){
-    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1];
-
-    //Si l'un des deplacements est egal a 1 ou -1 et que l'autre est egal a 2*deplacement ou -2*deplacement
-    if((dx==1 || dx==-1 || dy==1 || dy==-1)
-    && ( dx==-2*dy || dx==2*dy || dy == -2*dx || dy == 2 * dx) ){
-        if(pieceBlockID==-1){
+        //si avant derniere ligne, coup  et rien ne bloque
+        if((echiquier[Depart[0]][Depart[1]] == echiquier[1][Depart[1]] && (dx == 2) && Arrivee[1] == Depart[1]) && pieceBlockID==-1){
             echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
             echiquier[Depart[0]][Depart[1]]=' ';
         }
-        else if(pieceBlockID<6){
+        else if((dx == 1 && Arrivee[1] == Depart[1]) && pieceBlockID==-1){
             echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
             echiquier[Depart[0]][Depart[1]]=' ';
-            *PiecePriseNID = pieceBlockID;
+        }
+            //Condition de prise d'une piece, verification si piece noir et si la placement est bon
+        else if(pieceBlockID >= 6 && ((dx == 1 && dy == 1) || (dx == 1 && dy == -1))){
+            echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+            echiquier[Depart[0]][Depart[1]]=' ';
+            *PiecePriseNID=pieceBlockID;
         }
         else{
-            wprintf(L"Piece blanche bloquante");
+            wprintf(L"Le coup n'est pas autorisé");
+            *coupFait = 1;
+        }
+    }
+
+}
+
+void dCavalier(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int * PiecePriseNID, int * coupFait){
+    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1];
+
+    if(pieceID>5) {
+
+        //Si l'un des deplacements est egal a 1 ou -1 et que l'autre est egal a 2*deplacement ou -2*deplacement
+        if ((dx == 1 || dx == -1 || dy == 1 || dy == -1)
+            && (dx == -2 * dy || dx == 2 * dy || dy == -2 * dx || dy == 2 * dx)) {
+            if (pieceBlockID == -1) {
+                echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                echiquier[Depart[0]][Depart[1]] = ' ';
+            } else if (pieceBlockID < 6) {
+                echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                echiquier[Depart[0]][Depart[1]] = ' ';
+                *PiecePriseNID = pieceBlockID;
+            } else {
+                wprintf(L"Piece blanche bloquante");
+                *coupFait = 1;
+            }
+        } else {
+            wprintf(L"Le coup n'est pas autorisé\n");
+            *coupFait = 1;
         }
     }
     else{
-        wprintf(L"Le coup n'est pas autorisé\n");
+        if ((dx == 1 || dx == -1 || dy == 1 || dy == -1)
+            && (dx == -2 * dy || dx == 2 * dy || dy == -2 * dx || dy == 2 * dx)) {
+            if (pieceBlockID == -1) {
+                echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                echiquier[Depart[0]][Depart[1]] = ' ';
+            } else if (pieceBlockID > 5) {
+                echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                echiquier[Depart[0]][Depart[1]] = ' ';
+                *PiecePriseNID = pieceBlockID;
+            } else {
+                wprintf(L"Piece noire bloquante");
+                *coupFait = 1;
+            }
+        } else {
+            wprintf(L"Le coup n'est pas autorisé\n");
+            *coupFait = 1;
+        }
     }
 };
 
-void dFouB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID,int *PiecePriseNID){
+void dFou(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int *PiecePriseNID, int * coupFait){
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], trajet=0, i;
-    if(dx==dy || dx == -dy){
-        if(dx>0 && dy > 0){
-            for(i=1; i<abs(dx); i++){
-                if(echiquier[Depart[0]+i][Depart[1]+i] != ' '){
-                    trajet = 1;
+    if(pieceID>5){
+        if(dx==dy || dx == -dy){
+            if(dx>0 && dy > 0){
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]+i][Depart[1]+i] != ' '){
+                        trajet = 1;
+                    }
                 }
             }
-        }
-        else if(dx>0 && dy <0){
-            for(i=1; i<abs(dx); i++){
-                if(echiquier[Depart[0]+i][Depart[1]-i] != ' '){
-                    trajet = 1;
+            else if(dx>0 && dy <0){
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]+i][Depart[1]-i] != ' '){
+                        trajet = 1;
+                    }
                 }
             }
-        }
-        else if(dx<0 && dy>0){
-            for(i=1; i<abs(dx); i++){
-                if(echiquier[Depart[0]-i][Depart[1]+i] != ' '){
-                    trajet = 1;
+            else if(dx<0 && dy>0){
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]-i][Depart[1]+i] != ' '){
+                        trajet = 1;
+                    }
                 }
-            }
-        }
-        else{
-            for(i=1; i<abs(dx); i++){
-                if(echiquier[Depart[0]-i][Depart[1]-i] != ' '){
-                    trajet = 1;
-                }
-            }
-        }
-
-        if(trajet==0){
-            if(pieceBlockID==-1){
-
-                echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
-                echiquier[Depart[0]][Depart[1]]=' ';
-            }
-            else if(pieceBlockID<6){
-                echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
-                echiquier[Depart[0]][Depart[1]]=' ';
-                *PiecePriseNID = pieceBlockID;
             }
             else{
-                wprintf(L"Piece blanche bloquante");
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]-i][Depart[1]-i] != ' '){
+                        trajet = 1;
+                    }
+                }
             }
-        }
-        else{
-            wprintf(L"Une piece bloque le trajet");
-        }
-    }
-}
 
-void dTourB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID,int *PiecePriseNID){
-    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet;
-    if(dx==0 || dy ==0){    //si le mouvement est rectiligne
-        if(dx<0){           //si deplacement vers le haut
-            for(i=1; i<abs(dx); i++){
-                if(echiquier[Depart[0]-i][Depart[1]] != ' '){
-                    trajet = 1;
-                }
-            }
-        }
-        else if(dx>0){      //si deplacement vers le bas
-            for(i=1; i<abs(dx); i++){
-                if(echiquier[Depart[0]+i][Depart[1]] != ' '){
-                    trajet = 1;
-                }
-            }
-        }
-        else if(dy<0){      //deplacement vers la gauche
-            for(i=1; i<abs(dy); i++){
-                if(echiquier[Depart[0]][Depart[1]-i] != ' '){
-                    trajet = 1;
-                }
-            }
-        }
-        else{               //deplacement vers la droite
-            for(i=1; i<abs(dy); i++){
-                if(echiquier[Depart[0]][Depart[1]+i] != ' '){
-                    trajet = 1;
-                }
-            }
-        }
+            if(trajet==0){
+                if(pieceBlockID==-1){
 
-        if(trajet==0){
-            if(pieceBlockID==-1){
-                echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
-                echiquier[Depart[0]][Depart[1]] = ' ';
-            }
-            else if(pieceBlockID<6){
-                echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
-                echiquier[Depart[0]][Depart[1]]=' ';
-                *PiecePriseNID = pieceBlockID;
+                    echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]]=' ';
+                }
+                else if(pieceBlockID<6){
+                    echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]]=' ';
+                    *PiecePriseNID = pieceBlockID;
+                }
+                else{
+                    wprintf(L"Piece blanche bloquante");
+                    *coupFait = 1;
+                }
             }
             else{
-                wprintf(L"Piece blanche bloquante");
+                wprintf(L"Une piece bloque le trajet");
+                *coupFait = 1;
             }
-        }
-        else{
-            wprintf(L"Une piece bloque le trajet");
         }
     }
     else{
-        wprintf(L"Coup non valide");
+        if(dx==dy || dx == -dy){
+            if(dx>0 && dy > 0){
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]+i][Depart[1]+i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else if(dx>0 && dy <0){
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]+i][Depart[1]-i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else if(dx<0 && dy>0){
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]-i][Depart[1]+i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else{
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]-i][Depart[1]-i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+
+            if(trajet==0){
+                if(pieceBlockID==-1){
+                    echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]]=' ';
+                }
+                else if(pieceBlockID>5){
+                    echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]]=' ';
+                    *PiecePriseNID = pieceBlockID;
+                }
+                else{
+                    wprintf(L"Piece noire bloquante");
+                    *coupFait = 1;
+                }
+            }
+            else{
+                wprintf(L"Une piece bloque le trajet");
+                *coupFait = 1;
+            }
+        }
     }
 }
 
-void dReineB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID,int *PiecePriseNID){
+void dTour(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int *PiecePriseNID, int * coupFait){
+    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet;
+    if(pieceID>5){
+        if(dx==0 || dy ==0){    //si le mouvement est rectiligne
+            if(dx<0){           //si deplacement vers le haut
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]-i][Depart[1]] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else if(dx>0){      //si deplacement vers le bas
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]+i][Depart[1]] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else if(dy<0){      //deplacement vers la gauche
+                for(i=1; i<abs(dy); i++){
+                    if(echiquier[Depart[0]][Depart[1]-i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else{               //deplacement vers la droite
+                for(i=1; i<abs(dy); i++){
+                    if(echiquier[Depart[0]][Depart[1]+i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+
+            if(trajet==0){
+                if(pieceBlockID==-1){
+                    echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]] = ' ';
+                }
+                else if(pieceBlockID<6){
+                    echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]]=' ';
+                    *PiecePriseNID = pieceBlockID;
+                }
+                else{
+                    wprintf(L"Piece blanche bloquante");
+                    *coupFait = 1;
+                }
+            }
+            else{
+                wprintf(L"Une piece bloque le trajet");
+                *coupFait = 1;
+            }
+        }
+        else{
+            wprintf(L"Coup non valide");
+            *coupFait = 1;
+        }
+    }
+    else{
+        if(dx==0 || dy ==0){    //si le mouvement est rectiligne
+            if(dx<0){           //si deplacement vers le haut
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]-i][Depart[1]] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else if(dx>0){      //si deplacement vers le bas
+                for(i=1; i<abs(dx); i++){
+                    if(echiquier[Depart[0]+i][Depart[1]] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else if(dy<0){      //deplacement vers la gauche
+                for(i=1; i<abs(dy); i++){
+                    if(echiquier[Depart[0]][Depart[1]-i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+            else{               //deplacement vers la droite
+                for(i=1; i<abs(dy); i++){
+                    if(echiquier[Depart[0]][Depart[1]+i] != ' '){
+                        trajet = 1;
+                    }
+                }
+            }
+
+            if(trajet==0){
+                if(pieceBlockID==-1){
+                    echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]] = ' ';
+                }
+                else if(pieceBlockID>5){
+                    echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]]=' ';
+                    *PiecePriseNID = pieceBlockID;
+                }
+                else{
+                    wprintf(L"Piece blanche bloquante");
+                    *coupFait = 1;
+                }
+            }
+            else{
+                wprintf(L"Une piece bloque le trajet");
+                *coupFait = 1;
+            }
+        }
+        else{
+            wprintf(L"Coup non valide");
+            *coupFait = 1;
+        }
+    }
+}
+
+void dReine(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int *PiecePriseNID, int * coupFait){
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet;
     if(dx == 0 || dy ==0 || dx == dy || dx == -dy) {
         if (dx < 0) {           //si deplacement vers le haut
@@ -264,36 +426,50 @@ void dReineB(int size, char echiquier[size][size], int Depart[], int Arrivee[], 
                 }
             }
         }
-
             if (trajet == 0) {
                 if (pieceBlockID == -1) {
                     echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
                     echiquier[Depart[0]][Depart[1]] = ' ';
-                } else if (pieceBlockID < 6) {
+                } else if (pieceID >5 && pieceBlockID < 6) {
                     echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
                     echiquier[Depart[0]][Depart[1]] = ' ';
                     *PiecePriseNID = pieceBlockID;
-                } else {
-                    wprintf(L"Piece blanche bloquante");
+                }
+                else if (pieceID < 6 && pieceBlockID > 5 ) {
+                    echiquier[Arrivee[0]][Arrivee[1]] = echiquier[Depart[0]][Depart[1]];
+                    echiquier[Depart[0]][Depart[1]] = ' ';
+                    *PiecePriseNID = pieceBlockID;
+                }
+                else {
+                    wprintf(L"Piece bloquante");
+                    *coupFait = 1;
                 }
             }
             else {
                 wprintf(L"Une piece bloque le trajet");
+                *coupFait = 1;
             }
         }
     else{
         wprintf(L"Coup non valide");
+        *coupFait = 1;
     }
 }
 
-void dRoiB(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceBlockID,int *PiecePriseNID){
+void dRoi(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int *PiecePriseNID, int * coupFait){
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet;
-    if( ((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy == 1)) || (abs(dx)==1 && dy ==0))&& pieceBlockID<6){
+    if( ((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy == 1)) || (abs(dx)==1 && dy ==0)) && pieceID>5 && pieceBlockID<6){
         echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
         echiquier[Depart[0]][Depart[1]]=' ';
         *PiecePriseNID = pieceBlockID;
     }
+    else if(((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy == 1)) || (abs(dx)==1 && dy ==0)) && pieceID<6 && pieceBlockID>5){
+        echiquier[Arrivee[0]][Arrivee[1]]=echiquier[Depart[0]][Depart[1]];
+        echiquier[Depart[0]][Depart[1]]=' ';
+        *PiecePriseNID = pieceBlockID;
+}
     else{
         wprintf(L"Coup non autorisé");
+        *coupFait = 1;
     }
 }

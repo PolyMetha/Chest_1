@@ -9,8 +9,8 @@ void LetterToInt(char, int*);
 
 int pieceBlanche(int);
 
-void fonctionCoup(int size, char[size][size], int[], int[], int, int, int*);
+void fonctionCoup(int size, char[size][size], int[], int[], int, int, int*, int*);
 
-
+void verifEchec();
 
 #endif //CHEST_1_FONCTIONS_H
