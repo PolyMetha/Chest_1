@@ -6,9 +6,10 @@
 #include <stdlib.h>
 #include <io.h>
 #include "Savefile.h"
+#include "echequier.h"
 #include "menu.h"
 
-void savefile() {
+void savefile(piece pieces[]) {
     /*
      * Le but de la fonction save file est de pouvoir lire les fichiers sauvegardes, pour plus de simplicité il y a deux
      * fichiers sauvegardes, l'un sauvegarde la taille l'autre sauvegarde l'échiquier en entier.
@@ -38,5 +39,6 @@ void savefile() {
             }
             printf("\n");
         }
+        jeu(taille, save_echiquier[taille][taille], pieces);
     }
 }

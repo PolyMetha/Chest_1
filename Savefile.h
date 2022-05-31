@@ -4,5 +4,7 @@
 
 #ifndef CHEST_1_SAVEFILE_H
 #define CHEST_1_SAVEFILE_H
-void savefile();
+#include "menu.h"
+
+void savefile(piece[]);
 #endif //CHEST_1_SAVEFILE_H

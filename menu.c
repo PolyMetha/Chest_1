@@ -50,7 +50,7 @@ void menu (){
                 quitterboolean = 0;
                 break;
             case 2 :
-                savefile();
+                savefile(pieces);
                 quitterboolean = 0;
                 break;
             case 3 :

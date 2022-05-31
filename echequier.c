@@ -189,7 +189,6 @@ void generation(piece pieces[], int size, char echiquier[size][size]){
             }
         }
     }
-
 }
 
 void jeu(int size, char echiquier[size][size], piece pieces[]) {
