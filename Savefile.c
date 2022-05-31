@@ -8,23 +8,35 @@
 #include "Savefile.h"
 #include "menu.h"
 
-int savefile() {
-    _setmode(_fileno(stdout), 0x00020000);
-    int taille;
+void savefile() {
+    /*
+     * Le but de la fonction save file est de pouvoir lire les fichiers sauvegardes, pour plus de simplicité il y a deux
+     * fichiers sauvegardes, l'un sauvegarde la taille l'autre sauvegarde l'échiquier en entier.
+     * La fonciton savefile ouvre le premier fichier contenant la taille de l'échiquier (cette valeur à été enregistré à la
+     * fin de la précédente partie), ensuite créé un tableau à deux dimension pour le remplir caractère par caractère
+     * via l'ouverture du second fichier contenant l'échiquier. Les fichiers sont fermé après utilisations.
+     */
 
-    FILE *d = fopen("Size.txt", "r");
+    int taille = 0;
+    FILE* d = fopen("Size.txt", "r");
     if (d != NULL) {
         fscanf(d, "%d", &taille);
-        wprintf(L"%d\n", taille);
     }
-    char save_echiquier[taille+1];
+    fclose(d);
+    char save_echiquier[taille][taille];
+    char c[10];
+
     FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
     if (f != NULL) { //vérification de l'ouverture
-        for (int i = 0; i < taille + 5; i++) {
-            fgets(save_echiquier, taille+1, f);
-            wprintf(L"%s", save_echiquier);
-        } //lecture du fichier
-
-
+        rewind(f);
+        for (int x = 0; x < taille; x++){
+            for (int y = 0; y < taille; y++) {
+                if(fgets(c,2,f) != NULL){
+                    save_echiquier[x][y] = c[0];
+                    printf("%c",save_echiquier[x][y]);
+                }
+            }
+            printf("\n");
+        }
     }
 }

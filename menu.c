@@ -12,7 +12,7 @@
 #include "Savefile.h"
 
 void menu (){
-    _setmode(_fileno(stdout), 0x00020000);
+
     int reponse;
     char quitter[3] = "oui";
     int quitterboolean = 1;
