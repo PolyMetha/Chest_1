@@ -27,7 +27,7 @@ void menu (){
             6,'P',"Pion Blanc",
             7,'C', "Cavalier Blanc",
             8,'F',"Fou Blanc",
-            9,'T',"Tour Blache",
+            9,'T',"Tour Blanche",
             10,'Q',"Reine Blanche",
             11,'R',"Roi Blanc"
     };

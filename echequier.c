@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "pieces.h"
 #include "fonctions.h"
-#include "savefile.h"
 #include "menu.h"
 #include <time.h>
 #include <stdlib.h>
@@ -195,13 +194,13 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
     int Start[2] = {-1, -1}, End[2] = {-1, -1}, n = 0, m = 0, i, coupFait=0;      //Cases de départ et d'arrivée et compteurs
     int PieceSelectID = -1, PieceBlockID = -1, PiecePriseID = -1, nextCoup = 0; //ID de la piece selectionnée et la piece bloquante lors du coup
     char lettre, PiecePriseName, PiecesPrisesB[2 * size], PiecesPrisesN[2 * size];    //Lettre de la colonne
+    char CopieEchiquier[size][size];
 
     //Affiche la situation de départ
     printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
 
     //Selection de la piece a deplacer
     while (nextCoup == 0) {
-
         wprintf(L"Tour des blancs\n");
         do{
             wprintf(L"Quelle piece voulez vous deplacer ?\nLettre de colonne : ");
@@ -254,7 +253,16 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
                     /* FonctionCoup redirige vers une fonction propre a chaque piece qui verifie si le deplacement est possible
                     elle prend en parametre la lettre de la piece, la taille de l'echiquier, la case de départ, d'arrivée
                     l'id de la piece de départ, l'id de la potentille piece prise */
-                    fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID, &PiecePriseID, &coupFait);
+                    if(fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID, &PiecePriseID)==1){
+                        echiquier[End[0]][End[1]] = echiquier[Start[0]][Start[1]];
+                        echiquier[Start[0]][Start[1]] = ' ';
+                        coupFait=0;
+                    }
+                    else{
+                        //si la fonction retourne 0, cela veut dire que le coup n'a pas pu etre fait, on recommence la boucle
+                        wprintf(L"Coup impossible");
+                        coupFait = 1;
+                    }
 
                     //On cherche la nom de la piece éventuellement prise lors du déplacement
                     if (PiecePriseID >= 0 && PiecePriseID <= 5) {
@@ -276,6 +284,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
 
                     //affichage de la situation finale
                     printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
+                    coupFait=0;
                 }
                 else{
                     wprintf(L"\nPiece invalide, choisir une autre piece");
@@ -291,7 +300,9 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
         }
         while(coupFait==1);
 
+
         coupFait = 0;
+
 
         wprintf(L"Tour des noirs\n");
         do {
@@ -344,7 +355,15 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
                     /* FonctionCoup redirige vers une fonction propre a chaque piece qui verifie si le deplacement est possible
                     elle prend en parametre la lettre de la piece, la taille de l'echiquier, la case de départ, d'arrivée
                     l'id de la piece de départ, l'id de la potentille piece prise */
-                    fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID, &PiecePriseID, &coupFait);
+                    if(fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID, &PiecePriseID) == 1){
+                        echiquier[End[0]][End[1]] = echiquier[Start[0]][Start[1]];
+                        echiquier[Start[0]][Start[1]] = ' ';
+                        coupFait=0;
+                    }
+                    else{
+                        coupFait=1;
+                        wprintf(L"Coup impossible");
+                    }
 
                     //On cherche la nom de la piece éventuellement prise lors du déplacement
                     if (PiecePriseID >= 6 && PiecePriseID <= 11) {
@@ -366,7 +385,8 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
 
                     //affichage de la situation finale
                     printEchiquier(size, echiquier, PiecesPrisesB, PiecesPrisesN);
-                } else {
+                }
+                else {
                     wprintf(L"\nPiece invalide, choisir une autre piece");
                     coupFait=1;
                 }
@@ -382,7 +402,16 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
         //reset des coups
         coupFait=0;
 
-        verifEchec();
+
+        for(i=0; i<size; i++){
+            for(n=0; n<size; n++){
+                CopieEchiquier[i][n] = ' ';
+            }
+        }
+
+        verifEchec(size, echiquier,CopieEchiquier, pieces);
+
+        printEchiquier(size, CopieEchiquier, PiecesPrisesB, PiecesPrisesN);
 
         wprintf(L"\nPour aller au prochain coup, entrez 0, pour quitter, entrez 2");
 

@@ -10,6 +10,7 @@ void fonctEchiquier();
  *
  */
 
+void printEchiquier(int size, char echequier[size][size], char[], char[]);
 void searchID(char name, int *pieceID, piece pieces[]);
 void searchName(int, char*, piece[]);
 void generation(piece[], int size, char echiquier[size][size]);

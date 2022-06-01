@@ -4,13 +4,14 @@
 
 #ifndef CHEST_1_FONCTIONS_H
 #define CHEST_1_FONCTIONS_H
+#include "menu.h"
 
 void LetterToInt(char, int*);
 
 int pieceBlanche(int);
 
-void fonctionCoup(int size, char[size][size], int[], int[], int, int, int*, int*);
+int fonctionCoup(int size, char[size][size], int[], int[], int, int, int*);
 
-void verifEchec();
+void verifEchec(int size, char[size][size],char[size][size], piece[]);
 
 #endif //CHEST_1_FONCTIONS_H
