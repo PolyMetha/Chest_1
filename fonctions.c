@@ -61,7 +61,7 @@ int pieceBlanche(int pieceID){
     }
 }
 
-int fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int CaseArrivee[], int PieceID, int PieceBlockID, int * PiecePriseID){
+int fonctionCoup(int size, char echiquier[size][size], char CopieEchiquier[size][size], int CaseDepart[], int CaseArrivee[], int PieceID, int PieceBlockID, int * PiecePriseID){
     //lance la bonne fonction pour la piece selectionnée
     switch(PieceID){
         case 0: //pion Noir
@@ -82,7 +82,7 @@ int fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int Cas
             return dReine(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID);
             break;
         case 5:
-            return dRoi(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID);
+            return dRoi(size, echiquier, CopieEchiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID);
             break;
         case 6:
             return dPion(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID);
@@ -100,7 +100,7 @@ int fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int Cas
             return dReine(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID);
             break;
         case 11:
-            return dRoi(size, echiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID);
+            return dRoi(size, echiquier, CopieEchiquier, CaseDepart, CaseArrivee, PieceID, PieceBlockID, &*PiecePriseID);
             break;
         default:
             return 0;
@@ -141,7 +141,7 @@ void verifEchec(int size, char echiquier[size][size] , char Copie[size][size], p
                         searchID(echiquier[coup[0]][coup[1]], &pieceBlockID, pieces);
                     }
 
-                    if(fonctionCoup(size, echiquier, Depart, coup, pieceID, pieceBlockID, &piecePriseID)){
+                    if(fonctionCoup(size, echiquier, Copie, Depart, coup, pieceID, pieceBlockID, &piecePriseID)){
                         //si piece blanche
                         if(pieceID > 5){
                             if(Copie[coup[0]][coup[1]]==' ' && pieceBlockID==-1){
@@ -167,7 +167,6 @@ void verifEchec(int size, char echiquier[size][size] , char Copie[size][size], p
                             }
                         }
                     }
-
                     pieceBlockID=-1;
                     piecePriseID=-1;
                 }
