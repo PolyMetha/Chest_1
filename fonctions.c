@@ -61,6 +61,23 @@ int pieceBlanche(int pieceID){
     }
 }
 
+void input(int Case[2], int size){
+    char lettre='0';
+    wprintf(L"Lettre de la colonne : ");
+    while (lettre < 'A' || lettre >= 'A' + size) {
+        scanf("%c", &lettre);
+    }
+    LetterToInt(lettre, &Case[1]);
+    lettre = ' ';
+
+    wprintf(L"Numero de la ligne : ");
+    while (Case[0] < 0 || Case[0] >= size) {
+        scanf(" %d", &Case[0]);
+        //le 1 affiché correspond au 0 echiquier
+        Case[0] = Case[0] - 1;
+    }
+}
+
 int fonctionCoup(int size, char echiquier[size][size], char CopieEchiquier[size][size], int CaseDepart[], int CaseArrivee[], int PieceID, int PieceBlockID, int * PiecePriseID){
     //lance la bonne fonction pour la piece selectionnée
     switch(PieceID){
@@ -114,6 +131,8 @@ void verifEchec(int size, char echiquier[size][size] , char Copie[size][size], p
      * des 0 pour les cases dangeureuses pour les blancs
      * des 1 pour les cases dangeureuses pour les noirs
      * des 2 pour les cases dangeureuses pour les deux
+     * des 3 si il y a un danger pour les blancs si une autre piece blanche est prise
+     * des 4 si il y a un danger pour les noirs si une autre piece noire est prise
      * rien si la case est safe
      */
 
@@ -141,7 +160,7 @@ void verifEchec(int size, char echiquier[size][size] , char Copie[size][size], p
                         searchID(echiquier[coup[0]][coup[1]], &pieceBlockID, pieces);
                     }
 
-                    if(fonctionCoup(size, echiquier, Copie, Depart, coup, pieceID, pieceBlockID, &piecePriseID)){
+                    if(fonctionCoup(size, echiquier, Copie, Depart, coup, pieceID, pieceBlockID, &piecePriseID)==1){
                         //si piece blanche
                         if(pieceID > 5){
                             if(Copie[coup[0]][coup[1]]==' ' && pieceBlockID==-1){
@@ -171,7 +190,7 @@ void verifEchec(int size, char echiquier[size][size] , char Copie[size][size], p
                     piecePriseID=-1;
                 }
             }
-            printEchiquier(size, Copie, piecesPrisesB, piecesPrisesN);
+            //printEchiquier(size, Copie, piecesPrisesB, piecesPrisesN);
         }
     }
 }
