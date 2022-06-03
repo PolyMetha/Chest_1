@@ -12,7 +12,7 @@ int pieceBlanche(int);
 
 void input(int[2], int);
 
-int fonctionCoup(int size, char[size][size], char[size][size], int[], int[], int, int, int*);
+int fonctionCoup(int size, char[size][size], int[], int[], int, int, int*);
 
 void verifEchec(int size, char[size][size],char[size][size], piece[]);
 

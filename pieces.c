@@ -385,15 +385,9 @@ int dReine(int size, char echiquier[size][size], int Depart[], int Arrivee[], in
     }
 }
 
-int dRoi(int size, char echiquier[size][size],char copie[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int *PiecePriseNID){
+int dRoi(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID, int *PiecePriseNID){
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet;
-    if(copie[Arrivee[0]][Arrivee[1]]=='0' ){
-            return 0;
-    }
-    else if(((copie[Arrivee[0]][Arrivee[1]]=='0' || copie[Arrivee[0]][Arrivee[1]]=='2'|| copie[Arrivee[0]][Arrivee[1]]=='3')&&pieceID<6) || ((copie[Arrivee[0]][Arrivee[1]]=='1' || copie[Arrivee[0]][Arrivee[1]]=='2' || copie[Arrivee[0]][Arrivee[1]]=='4')&&pieceID>5)){
-        return 0;
-    }
-    else if( ((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy == 1)) || (abs(dx)==1 && dy ==0)) && pieceID>5 && pieceBlockID<6){
+    if( ((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy == 1)) || (abs(dx)==1 && dy ==0)) && pieceID>5 && pieceBlockID<6){
         *PiecePriseNID = pieceBlockID;
         return 1;
     }
