@@ -12,7 +12,10 @@ int pieceBlanche(int);
 
 void input(int[2], int);
 
-int fonctionCoup(int size, char[size][size], int[], int[], int, int, int*);
+int fonctionCoup(int size, char[size][size], int[], int[], int, int);
+
+void JeuBlanc(int size, char[size][size], piece[], int[4]);
+void JeuNoir(int size, char[size][size], piece[], int[4]);
 
 void verifEchec(int size, char[size][size],char[size][size], piece[]);
 
