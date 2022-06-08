@@ -12,52 +12,61 @@
 #include <string.h>
 
 
-void printEchiquier(int size, char echequier[size][size]){
+void printEchiquier(int size, char echiquier[size][size]){
     int x, y, i,j=0, ascii_A=65;
 
-    wprintf(L"\n\n ");
+    wprintf(L"\n\n");
 
     //print lettres echiquier
-    wprintf(L"\n\n ");
+    wprintf(L"\n\n   ");
     for(i=0; i<size; i++){
-        wprintf(L" %c ", ascii_A+i);
-        if(i%2==0){
-            wprintf(L" ");
-        }
+        wprintf(L"   %c  ", ascii_A+i);
+    }
+    wprintf(L"\n    ");
+    for(i=0; i<size; i++){
+        wprintf(L"_____+", ascii_A+i);
     }
     wprintf(L"\n");
 
     //contenu
     for(x=0; x<size; x++){
-        wprintf(L"%d ", x+1);
+        wprintf(L"%d ", size-x);
+        if(x>1){
+            wprintf(L" ");
+        }
+
         for(y=0; y<size; y++){
-            if(echequier[x][y]!=' '){
-                wprintf(L" ");
-                findSprite(echequier[x][y]);
-                wprintf(L" ");
+            wprintf(L"|");
+            if(echiquier[x][y] != ' '){
+                //findSprite(echiquier[x][y]);
+                wprintf(L"  %c  ", echiquier[x][y]);
             }
             else{
                 if(x%2==0){
                     if(y%2==0){
-                        wprintf(L" \x2015 ");
+                        wprintf(L"  _  ");
                     }
                     else{
-                        wprintf(L" \x2001 ");
+                        wprintf(L"     ");
                     }
                 }
                 else{
                     if(y%2==0){
-                        wprintf(L" \x2001 ");
+                        wprintf(L"     ");
                     }
                     else{
-                        wprintf(L" \x2015 ");
+                        wprintf(L"  _  ");
                     }
                 }
 
             }
         }
+        wprintf(L"|\n   ");
+        for(y=0; y<size; y++){
+            wprintf(L""
+                    "+-----");
+        }
         wprintf(L"\n");
-
     }
     wprintf(L"\n");
 }

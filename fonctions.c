@@ -75,7 +75,7 @@ void input(int Case[2], int size){
     while (Case[0] < 0 || Case[0] >= size) {
         scanf(" %d", &Case[0]);
         //le 1 affiché correspond au 0 echiquier
-        Case[0] = Case[0] - 1;
+        Case[0] = size - Case[0];
     }
 }
 

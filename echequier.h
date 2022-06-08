@@ -10,7 +10,7 @@ void fonctEchiquier();
  *
  */
 
-void printEchiquier(int size, char echequier[size][size]);
+void printEchiquier(int size, char echiquier[size][size]);
 void searchID(char name, int *pieceID, piece pieces[]);
 void searchName(int, char*, piece[]);
 char searchColor(int ID);
