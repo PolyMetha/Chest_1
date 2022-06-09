@@ -5,9 +5,12 @@
 #include "fonctions.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
+#include "menu.h"
 #include "pieces.h"
 #include "echequier.h"
+#include "Savefile.h"
 
 void LetterToInt(char lettre, int * select){
     switch(lettre){
@@ -61,20 +64,36 @@ int pieceBlanche(int pieceID){
     }
 }
 
-void input(int Case[2], int size){
+int input(int Case[2], int size,piece pieces[],char echiquier[size][size],char Blancheprise[2*size],char NoirePrise[2*size]){
     char lettre='0';
+    char reponse[3] = "oui";
+    int reponseboolean = 0;
     wprintf(L"Lettre de la colonne : ");
-    while (lettre < 'A' || lettre >= 'A' + size) {
+    while (lettre < 'A' || lettre >= 'A' + size && lettre == 'X' && lettre == 'S') {
         scanf("%c", &lettre);
     }
+    if(lettre == 'X'){
+        wprintf(L"vous êtes sur oui ou non?\n");
+        scanf("%s",&reponse);
+        strlwr(reponse);
+        reponseboolean = strcmp(reponse, "oui");
+        if(reponseboolean == 0){
+            wprintf(L"A bientot\n");
+            return 2;
+        }
+    }else if(lettre == 'S'){
+        savefile(pieces,size,echiquier[size][size]);
+    }
+    else{
     LetterToInt(lettre, &Case[1]);
     lettre = ' ';
-
     wprintf(L"Numero de la ligne : ");
     while (Case[0] < 0 || Case[0] >= size) {
         scanf(" %d", &Case[0]);
         //le 1 affiché correspond au 0 echiquier
         Case[0] = Case[0] - 1;
+        return 5;
+    }
     }
 }
 

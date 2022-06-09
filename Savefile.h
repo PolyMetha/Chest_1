@@ -6,5 +6,6 @@
 #define CHEST_1_SAVEFILE_H
 #include "menu.h"
 
-void savefile(piece[]);
+void savefile(piece[],int taille, char echiquier[taille][taille]);
+void readfile(piece[]);
 #endif //CHEST_1_SAVEFILE_H
