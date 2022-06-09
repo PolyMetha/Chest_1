@@ -24,7 +24,7 @@ void printEchiquier(int size, char echiquier[size][size]){
     }
     wprintf(L"\n    ");
     for(i=0; i<size; i++){
-        wprintf(L"_____+", ascii_A+i);
+        wprintf(L"-----+", ascii_A+i);
     }
     wprintf(L"\n");
 
@@ -220,7 +220,7 @@ int IsEchecB(int size, char Copie[size][size], piece pieces[]){
         start[0]=x;
         for(y=0; y<size; y++){
             start[1]=y;
-
+            
             if(Copie[x][y]!=' '){
                 //id Piece
                 searchID(Copie[x][y], &ID, pieces);
