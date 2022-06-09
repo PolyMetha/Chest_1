@@ -10,11 +10,11 @@ void fonctEchiquier();
  *
  */
 
-void printEchiquier(int size, char echequier[size][size], char[], char[]);
+void printEchiquier(int size, char echiquier[size][size]);
 void searchID(char name, int *pieceID, piece pieces[]);
 void searchName(int, char*, piece[]);
 char searchColor(int ID);
-void echec(int size, char[size][size], char[size][size], int *, int *);
+void IsEchec(int size, char[size][size], piece[],int*, int*);
 void generation(piece[], int size, char echiquier[size][size]);
 void jeu(int size, char echiquier[size][size], piece[]);
 #endif //CHEST_1_ECHEQUIER_H
