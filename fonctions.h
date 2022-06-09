@@ -10,7 +10,7 @@ void LetterToInt(char, int*);
 
 int pieceBlanche(int);
 
-void input(int[2], int);
+int input(int[2], int size, piece[], char echiquier[size][size], char PiecesPrisesB[2 * size], char PiecesPriseN[2 * size]);
 
 int fonctionCoup(int size, char[size][size], int[], int[], int, int);
 
