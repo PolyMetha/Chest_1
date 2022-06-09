@@ -220,7 +220,7 @@ int IsEchecB(int size, char Copie[size][size], piece pieces[]){
         start[0]=x;
         for(y=0; y<size; y++){
             start[1]=y;
-            
+
             if(Copie[x][y]!=' '){
                 //id Piece
                 searchID(Copie[x][y], &ID, pieces);

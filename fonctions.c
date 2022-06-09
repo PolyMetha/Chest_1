@@ -65,7 +65,7 @@ int pieceBlanche(int pieceID){
     }
 }
 
-int input(int Case[2], int size,piece pieces[],char echiquier[size][size],char Blancheprise[2*size],char NoirePrise[2*size]){
+int input(int Case[2], int size,piece pieces[],char echiquier[size][size]){
     char lettre='0';
     char reponse[3] = "oui";
     int reponseboolean = 0;
@@ -95,7 +95,7 @@ int input(int Case[2], int size,piece pieces[],char echiquier[size][size],char B
         Case[0] = size - Case[0];
         return 5;
     }
-        
+
     }
 }
 
@@ -158,7 +158,7 @@ void JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup
         End[1]=-1;
         PieceSelectID = -1, PieceBlockID = -1;
 
-        input(Start, size);
+        input(Start, size, pieces, echiquier);
 
         wprintf(L"\n");
 
@@ -174,7 +174,7 @@ void JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup
 
                 //Entrée de la case d'arrivée de la piece
                 wprintf(L"Ou voulez vous vous déplacer ?\n");
-                input(End, size);
+                input(End, size, pieces, echiquier);
 
                 //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
                 if (echiquier[End[0]][End[1]] != ' ') {
@@ -240,7 +240,7 @@ void JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
         End[0]=-1;
         End[1]=-1;
 
-        input(Start, size);
+        input(Start, size, pieces, echiquier);
 
         wprintf(L"\n");
 
@@ -257,7 +257,7 @@ void JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
 
                 //Entrée de la case d'arrivée de la piece
                 wprintf(L"Ou voulez vous vous déplacer ?\n");
-                input(End, size);
+                input(End, size, pieces, echiquier);
 
                 //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
                 if (echiquier[End[0]][End[1]] != ' ') {
