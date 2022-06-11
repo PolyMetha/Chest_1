@@ -3,90 +3,83 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <io.h>
+
+#include "fonctions.h"
 #include "Savefile.h"
 #include "echequier.h"
 #include "menu.h"
 
-void savefile(piece pieces[],int size, char echiquier[size][size]) {
+int savefile(piece pieces[], int size, char echiquier[size][size], int tourdujoueur) {
     /*
      *
      */
 
     int compteur = 0;
-    FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
-    if(f!= NULL){ //vérification de l'ouverture
-        for(int x=0; x<size;x++) {
-            for (int y = 0; y < size; y++) {
-                fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
+    int reponseboolean = 0;
+    char reponse[3] = "oui";
+
+    FILE *f = fopen("Save.txt",
+                    "w"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
+    if (f != NULL) { //vérification de l'ouverture
+        fprintf(f, "%d\n", size);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                fprintf(f, "%c", echiquier[i][j]);
             }
         }
-    }else {
-        wprintf(L"Le fichier 'Save.txt' est introuvable");
+        fprintf(f, "\n%d", tourdujoueur);
+    } else {
+        wprintf(L"Le fichier 'Save.txt' est introuvable\n");
         compteur++;
     }
     fclose(f);
 
-    FILE* d = fopen("Size.txt","w");
-    if(d != NULL){
-        fprintf(d,"%d",size);
+    if (compteur != 0) {
+        wprintf(L"échec de la sauvegarde\n");
     } else {
-        wprintf(L"le fichier 'Size.txt est introuvable");
-        compteur++;
-    }
-
-    fclose(d);
-    menu();
-    if(compteur != 0){
-        wprintf(L"échec de la sauvegarde");
-    } else {
-        wprintf(L"Votre partie à été enregistré !");
-        wprintf(L"voulez-vous continué votre partie?");
-
+        wprintf(L"Votre partie à été enregistré !\n");
+        wprintf(L"voullez-vous reprendre votre partie ? (oui ou non?)\n");
+        scanf("%s", &reponse);
+        strlwr(reponse);
+        reponseboolean = strcmp(reponse, "oui");
+        if (reponseboolean == 0) {
+            jeu(size, echiquier, pieces, 0);
+        } else {
+            wprintf(L"ton père");
+            return 2;
+        }
     }
 }
 
 
-
-
 void readfile(piece pieces[]) {
-    int taille = 0;
-    FILE *d = fopen("Size.txt", "r"); // ouverture du fichier en mode lecture
-    if (d != NULL) {  //vérification de l'ouverture
-        fscanf(d, "%d", &taille); //Enregistre la taille de l'ancien échiquier
+
+    int tourdujoueur = 0;
+    int size = 0;
+    FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
+    if (f != NULL) {  //vérification de l'ouverture
+        fscanf(f, "%d\n", &size); //Enregistre la taille de l'ancien échiquier
+        wprintf(L"%d",size);
     }
-    fclose(d);
 
-    char Bprises[2 * taille], Nprises[2 * taille];
+    char save_echiquier[size][size];
+    char stock[10];
 
-
-    FILE *b = fopen("Blancheprises.txt", "w");
-    if (b != NULL) {
-        fgets(Bprises, 2 * taille, b);
-    }
-    fclose(b);
-
-    FILE *n = fopen("Noireprises.txt", "w");
-    if (n != NULL) {
-        fgets(Nprises, 2 * taille, n);
-    }
-    fclose(n);
-
-    char save_echiquier[taille][taille];
-    char c[10];
-
-    FILE *f = fopen("Save.txt", "r");
     if (f != NULL) {
-        rewind(f);
-        for (int x = 0; x < taille; x++) {
-            for (int y = 0; y < taille; y++) {
-                if (fgets(c, 2, f) != NULL) {
-                    save_echiquier[x][y] = c[0];
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                if (fgets(stock, 2, f) != NULL){
+                    save_echiquier[x][y] = stock[0];
                     wprintf(L"%c", save_echiquier[x][y]);
                 }
             }
         }
-        jeu(taille,save_echiquier,pieces, 0);
     }
+    fscanf(f,"%d\n",&tourdujoueur);
+    wprintf(L"%d",tourdujoueur);
     fclose(f);
+    jeu(size, save_echiquier, pieces, tourdujoueur);
+
 }

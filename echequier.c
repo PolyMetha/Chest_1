@@ -13,17 +13,17 @@
 
 void printEchiquier(int size, char echiquier[size][size]){
     int x, y, i,j=0, ascii_A=65;
-
-    wprintf(L"\n\n");
+   // clear();
 
     //print lettres echiquier
     wprintf(L"\n\n   ");
+
     for(i=0; i<size; i++){
         wprintf(L"   %c  ", ascii_A+i);
     }
     wprintf(L"\n    ");
     for(i=0; i<size; i++){
-        wprintf(L"-----+", ascii_A+i);
+        wprintf(L"-----+");
     }
     wprintf(L"\n");
 
@@ -68,6 +68,7 @@ void printEchiquier(int size, char echiquier[size][size]){
         wprintf(L"\n");
     }
     wprintf(L"\n");
+
 }
 
 void searchID(char name, int * pieceID , piece pieces[]){ //Recherche un ID de piece Pour un nom donné
@@ -292,6 +293,7 @@ int IsEchecN(int size, char Copie[size][size], piece pieces[]){
     }
 }
 
+
 int EchecEtMatN(int size, char echiquier[size][size], piece pieces[], int posRoi[2]) {
     int x, y, a, b, End[2], ID = 5, BlockID, escape = 0, IDpiece, PieceStart[2], PieceEnd[2];
     char temp;
@@ -453,8 +455,9 @@ int EchecEtMatB(int size, char echiquier[size][size], piece pieces[], int posRoi
 }
 
 void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
+
     int Start[2] = {-1, -1}, End[2] = {-1, -1}, n = 0, m = 0, i, coupFait = 0, SaveCoup[4],
-            PieceSelectID = -1, PieceBlockID = -1, PiecePriseID = -1, nextCoup = 0, PosRoiN[2], PosRoiB[2];
+            PieceSelectID = -1, PieceBlockID = -1, PiecePriseID = -1, nextCoup = 0, PosRoiN[2], PosRoiB[2], stock = 0;
 
     char lettre, PiecePriseName, color,
             Copie[size][size];
@@ -471,6 +474,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
             }
         }
 
+
     if(QuelTour==0){
         if (IsEchecB(size, Copie, pieces) == 1) {
 
@@ -484,6 +488,10 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
                             Copie[n][m] = echiquier[n][m];
                         }
                     }
+                  stock = JeuBlanc(size, Copie, pieces, SaveCoup);
+                if(stock  == 2){
+                    menu();
+                }
                     //jouer les blancs dans la copie
                     JeuBlanc(size, Copie, pieces, SaveCoup);
                     if (IsEchecB(size, Copie, pieces) != 1) {
@@ -524,8 +532,11 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
                     //recopie le changement dans la copie
                     Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
                     Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
+
+
                     QuelTour = 1;
                     coupFait = 1;
+
 
                     printEchiquier(size, echiquier);
                 }
@@ -534,6 +545,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
                     coupFait == 0;
                 }
             }
+
             while (IsEchecB(size, echiquier, pieces) == 1 || coupFait == 0);
             //reset ce qui doit l'etre
         }
@@ -549,6 +561,7 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
                     for (m = 0; m < size; m++) {
                         Copie[n][m] = echiquier[n][m];
                     }
+
                 }
                 printEchiquier(size, echiquier);
                 wprintf(L"\nEchec pour les noirs !\n");
@@ -573,7 +586,9 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
             }
         }
         else {
+
             wprintf(L"Pas echec noir");
+
             printEchiquier(size, echiquier);
             do {
                 for (n = 0; n < size; n++) {
@@ -589,8 +604,10 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
                     //recopie le changement dans la copie
                     Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
                     Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
+
                     QuelTour = 0;
                     coupFait = 1;
+
                 }
                     //reset ce qui doit l'etre
                 else{wprintf(L"Ce coup vous mettrait en echec");coupFait = 0;}
@@ -603,9 +620,12 @@ void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
 
 
         wprintf(L"\nPour aller au prochain coup, entrez 0, pour quitter, entrez 2");
-
+        fflush(stdin);
         scanf("%d", &nextCoup);
     }
+    }
+
+
 }
 
 void fonctEchiquier(piece pieces[]){
@@ -616,6 +636,7 @@ void fonctEchiquier(piece pieces[]){
     scanf("%d", &size);
     while(size<6 || size>12){
         wprintf(L"La valeur doit etre comprise entre 6 et 12");
+        fflush(stdin);
         scanf("%d", &size);
     }
     char echiquier[size][size];
@@ -627,22 +648,16 @@ void fonctEchiquier(piece pieces[]){
      * autre fichier. L'enregistrement de l'échiquier se fait caractère par caractère et le fichier "size" ne contiens
      * que la taille. Les fichiers sont fermés après utilisation.
      */
-
-  FILE* f = fopen("Save.txt","w+"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
-    if(f!= NULL){ //vérification de l'ouverture
-        for(x=0; x<size;x++) {
-            for (y = 0; y < size; y++) {
-                fprintf(f, "%c", echiquier[x][y]); //Ecriture de l'echiquier dans le ficher
+    FILE *f = fopen("Save.txt","w"); //Ouvre le fichier de sauvegarde (ecriture/lecture + suppression de ce qui a été écrit au paravant)
+    if (f != NULL) { //vérification de l'ouverture
+        fprintf(f, "%d\n", size);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                fprintf(f, "%c", echiquier[i][j]);
             }
         }
+        fprintf(f, "\n0");
+        fclose(f);
+        menu();
     }
-    fclose(f);
-
-    FILE* d = fopen("Size.txt","w");
-
-    if(d != NULL){
-        fprintf(d,"%d",size);
-    }
-    fclose(d);
-    menu();
 }
