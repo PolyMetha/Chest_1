@@ -83,7 +83,7 @@ int input(int Case[2], int size,piece pieces[],char echiquier[size][size]){
             return 2;
         }
     }else if(lettre == 'S'){
-        savefile(pieces,size,echiquier[size][size]);
+        savefile(pieces,size,echiquier);
     }
     else{
     LetterToInt(lettre, &Case[1]);
@@ -219,10 +219,10 @@ void JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup
                 */
                 //reset des variables
             }
-            else{
-                wprintf(L"\nPiece invalide, choisir une autre piece");
-                coupFait=1;
-            }
+        }
+        else{
+            wprintf(L"\nPiece invalide, choisir une autre piece");
+            coupFait=1;
         }
     }
     while(coupFait==1);
@@ -302,12 +302,11 @@ void JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
                 */
                 //reset des variables
             }
-            else{
-                wprintf(L"\nPiece invalide, choisir une autre piece");
-                coupFait=1;
-            }
         }
-
+        else{
+            wprintf(L"\nPiece invalide, choisir une autre piece");
+            coupFait=1;
+        }
     }
     while(coupFait==1);
 }

@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 void printEchiquier(int size, char echiquier[size][size]){
     int x, y, i,j=0, ascii_A=65;
 
@@ -293,7 +292,167 @@ int IsEchecN(int size, char Copie[size][size], piece pieces[]){
     }
 }
 
-void jeu(int size, char echiquier[size][size], piece pieces[]) {
+int EchecEtMatN(int size, char echiquier[size][size], piece pieces[], int posRoi[2]) {
+    int x, y, a, b, End[2], ID = 5, BlockID, escape = 0, IDpiece, PieceStart[2], PieceEnd[2];
+    char temp;
+
+    for(x=0; x<size; x++){
+        End[0]=x;
+        for(y=0; y<size; y++){
+            End[1]=y;
+
+            if(echiquier[End[0]][End[1]] != ' '){
+                searchID(echiquier[x][y], &BlockID, pieces);
+            }
+            else{
+                BlockID = -1;
+            }
+
+
+            if(fonctionCoup(size, echiquier, posRoi, End, ID, BlockID)==1){
+                //sauvegarde la piece dans la position d'arrivée pour reset le coup plus tard
+                temp = echiquier[End[0]][End[1]];
+                echiquier[End[0]][End[1]]=echiquier[posRoi[0]][posRoi[1]];
+                echiquier[posRoi[0]][posRoi[1]]=' ';
+                if(IsEchecN(size, echiquier, pieces)==0){
+                    escape = escape+1;
+                }
+                echiquier[posRoi[0]][posRoi[1]]='r';
+                echiquier[End[0]][End[1]]=temp;
+                temp = ' ';
+            }
+            //reset variables
+            BlockID=-1;
+        }
+    }
+
+    for(x=0; x<size; x++){
+        for(y=0; y<size; y++){
+            if(echiquier[x][y] != ' '){
+                searchID(echiquier[x][y], &IDpiece, pieces);
+                PieceStart[0]=x;
+                PieceStart[1]=y;
+
+                if(IDpiece<6){
+                    for(a=0; a<size; a++){
+                        PieceEnd[0]=a;
+
+                        if(echiquier[a][b]!=' '){
+                            searchID(echiquier[a][b], &BlockID, pieces);
+                        }
+
+                        for(b=0; b<size; b++){
+                            PieceEnd[1]=b;
+                            if(fonctionCoup(size, echiquier, PieceStart, PieceEnd, IDpiece,  BlockID)==1){
+                                temp=echiquier[PieceEnd[0]][PieceEnd[1]];
+                                echiquier[PieceEnd[0]][PieceEnd[1]]=echiquier[PieceStart[0]][PieceStart[1]];
+                                echiquier[PieceStart[0]][PieceStart[1]]=' ';
+
+                                if(IsEchecN(size, echiquier, pieces)==0){
+                                    escape=escape+1;
+                                    wprintf(L"Une piece peut defendre");
+                                }
+                                echiquier[PieceStart[0]][PieceStart[1]]=echiquier[PieceEnd[0]][PieceEnd[1]];
+                                echiquier[PieceEnd[0]][PieceEnd[1]];
+                                temp=' ';
+                            }
+                        }
+                    }
+                }
+            }
+            BlockID=-1;
+        }
+    }
+
+    if(escape != 0){
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+int EchecEtMatB(int size, char echiquier[size][size], piece pieces[], int posRoi[2]){
+    int x, y, a, b, End[2], ID = 11, BlockID, escape = 0 ,IDpiece, PieceStart[2], PieceEnd[2];
+    char temp;
+
+    for(x=0; x<size; x++){
+        End[0]=x;
+        for(y=0; y<size; y++){
+            End[1]=y;
+
+            if(echiquier[End[0]][End[1]] != ' '){
+                searchID(echiquier[x][y], &BlockID, pieces);
+            }
+            else{
+                BlockID = -1;
+            }
+
+
+            if(fonctionCoup(size, echiquier, posRoi, End, ID, BlockID)==1){
+                //sauvegarde la piece dans la position d'arrivée pour reset le coup plus tard
+                temp = echiquier[End[0]][End[1]];
+                echiquier[End[0]][End[1]]=echiquier[posRoi[0]][posRoi[1]];
+                echiquier[posRoi[0]][posRoi[1]]=' ';
+                if(IsEchecB(size, echiquier, pieces)==0){
+                    escape = escape+1;
+                }
+                echiquier[posRoi[0]][posRoi[1]]='R';
+                echiquier[End[0]][End[1]]=temp;
+                temp = ' ';
+            }
+            //reset variables
+            BlockID=-1;
+        }
+    }
+
+    for(x=0; x<size; x++){
+        for(y=0; y<size; y++){
+            if(echiquier[x][y] != ' '){
+                searchID(echiquier[x][y], &IDpiece, pieces);
+                PieceStart[0]=x;
+                PieceStart[1]=y;
+
+                if(IDpiece>5){
+                    for(a=0; a<size; a++){
+                        PieceEnd[0]=a;
+
+                        if(echiquier[a][b]!=' '){
+                            searchID(echiquier[a][b], &BlockID, pieces);
+                        }
+
+                        for(b=0; b<size; b++){
+                            PieceEnd[1]=b;
+                            if(fonctionCoup(size, echiquier, PieceStart, PieceEnd, IDpiece,  BlockID)==1){
+                                temp=echiquier[PieceEnd[0]][PieceEnd[1]];
+                                echiquier[PieceEnd[0]][PieceEnd[1]]=echiquier[PieceStart[0]][PieceStart[1]];
+                                echiquier[PieceStart[0]][PieceStart[1]]=' ';
+
+                                if(IsEchecB(size, echiquier, pieces)==0){
+                                    escape=escape+1;
+                                    wprintf(L"Une piece peut defendre\n");
+                                }
+                                echiquier[PieceStart[0]][PieceStart[1]]=echiquier[PieceEnd[0]][PieceEnd[1]];
+                                echiquier[PieceEnd[0]][PieceEnd[1]];
+                                temp=' ';
+                            }
+                        }
+                    }
+                }
+            }
+            BlockID=-1;
+        }
+    }
+
+
+    if(escape != 0){
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+
+void jeu(int size, char echiquier[size][size], piece pieces[],int QuelTour) {
     int Start[2] = {-1, -1}, End[2] = {-1, -1}, n = 0, m = 0, i, coupFait = 0, SaveCoup[4],
             PieceSelectID = -1, PieceBlockID = -1, PiecePriseID = -1, nextCoup = 0, PosRoiN[2], PosRoiB[2];
 
@@ -312,28 +471,38 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
             }
         }
 
+    if(QuelTour==0){
         if (IsEchecB(size, Copie, pieces) == 1) {
 
-            printEchiquier(size, echiquier);
-            wprintf(L"\nEchec pour les blancs !\n");
-            while (IsEchecB(size, echiquier, pieces) == 1) {
-                //jouer les blancs dans la copie
-                for (n = 0; n < size; n++) {
-                    for (m = 0; m < size; m++) {
-                        Copie[n][m] = echiquier[n][m];
-                    }
-                }
-                JeuBlanc(size, Copie, pieces, SaveCoup);
-                if (IsEchecB(size, Copie, pieces) != 1) {
-                    echiquier[SaveCoup[2]][SaveCoup[3]] = echiquier[SaveCoup[0]][SaveCoup[1]];
-                    echiquier[SaveCoup[0]][SaveCoup[1]] = ' ';
-                    //recopie le changement dans la copie
-                    Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
-                    Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
+            if(EchecEtMatB(size, Copie, pieces, PosRoiB)==0) {
+                printEchiquier(size, echiquier);
+                wprintf(L"\nEchec pour les blancs !\n");
+                while (IsEchecB(size, echiquier, pieces) == 1) {
 
-                    printEchiquier(size, echiquier);
+                    for (n = 0; n < size; n++) {
+                        for (m = 0; m < size; m++) {
+                            Copie[n][m] = echiquier[n][m];
+                        }
+                    }
+                    //jouer les blancs dans la copie
+                    JeuBlanc(size, Copie, pieces, SaveCoup);
+                    if (IsEchecB(size, Copie, pieces) != 1) {
+                        echiquier[SaveCoup[2]][SaveCoup[3]] = echiquier[SaveCoup[0]][SaveCoup[1]];
+                        echiquier[SaveCoup[0]][SaveCoup[1]] = ' ';
+                        //recopie le changement dans la copie
+                        Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
+                        Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
+                        QuelTour = 1;
+
+                        printEchiquier(size, echiquier);
+                    }
+                    //reset ce qui doit l'etre
                 }
-                //reset ce qui doit l'etre
+            }
+            else{
+                //partie finie, vainqueur Noir
+                wprintf(L"Les noirs gagnent");
+                menu();
             }
         }
         else{
@@ -355,47 +524,56 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
                     //recopie le changement dans la copie
                     Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
                     Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
+                    QuelTour = 1;
+                    coupFait = 1;
 
                     printEchiquier(size, echiquier);
                 }
-
-                if(IsEchecB(size, Copie, pieces) == 1){
-                    wprintf(L"Le coup vous mettrais en echec");
+                else{
+                    wprintf(L"Ce coup vous mettrait en echec");
+                    coupFait == 0;
                 }
+            }
+            while (IsEchecB(size, echiquier, pieces) == 1 || coupFait == 0);
+            //reset ce qui doit l'etre
         }
-            while (IsEchecB(size, Copie, pieces) == 1);
-        //reset ce qui doit l'etre
     }
 
+    coupFait = 0;
+
+    if(QuelTour != 0){
         if (IsEchecN(size, echiquier, pieces) == 1) {
 
-            for (n = 0; n < size; n++) {
-                for (m = 0; m < size; m++) {
-                    Copie[n][m] = echiquier[n][m];
+            if (EchecEtMatN(size, Copie, pieces, PosRoiN) == 0) {
+                for (n = 0; n < size; n++) {
+                    for (m = 0; m < size; m++) {
+                        Copie[n][m] = echiquier[n][m];
+                    }
+                }
+                printEchiquier(size, echiquier);
+                wprintf(L"\nEchec pour les noirs !\n");
+                while (IsEchecN(size, Copie, pieces) == 1) {
+                    //jouer les noirs dans la copie
+                    JeuNoir(size, Copie, pieces, SaveCoup);
+                    if (IsEchecN(size, Copie, pieces) != 1) {
+                        echiquier[SaveCoup[2]][SaveCoup[3]] = echiquier[SaveCoup[0]][SaveCoup[1]];
+                        echiquier[SaveCoup[0]][SaveCoup[1]] = ' ';
+                        //recopie le changement dans la copie
+                        Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
+                        Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
+                        QuelTour = 0;
+                    }
+                    //reset ce qui doit l'etre
+                    printEchiquier(size, echiquier);
                 }
             }
-            printEchiquier(size, echiquier);
-            wprintf(L"\nEchec pour les noirs !\n");
-            while (IsEchecN(size, Copie, pieces) == 1) {
-                //jouer les noirs dans la copie
-                JeuNoir(size, Copie, pieces, SaveCoup);
-                if (IsEchecN(size, Copie, pieces) != 1) {
-                    echiquier[SaveCoup[2]][SaveCoup[3]] = echiquier[SaveCoup[0]][SaveCoup[1]];
-                    echiquier[SaveCoup[0]][SaveCoup[1]] = ' ';
-                    //recopie le changement dans la copie
-                    Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
-                    Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
-                }
-                //reset ce qui doit l'etre
-                printEchiquier(size, echiquier);
+            else{
+                wprintf(L"Les Blancs Gagnent");
+                menu();
             }
         }
-
         else {
-
-            printEchiquier(size, echiquier);
-
-
+            wprintf(L"Pas echec noir");
             printEchiquier(size, echiquier);
             do {
                 for (n = 0; n < size; n++) {
@@ -411,17 +589,19 @@ void jeu(int size, char echiquier[size][size], piece pieces[]) {
                     //recopie le changement dans la copie
                     Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
                     Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
+                    QuelTour = 0;
+                    coupFait = 1;
                 }
-                //reset ce qui doit l'etre
-                if(IsEchecN(size, Copie, pieces) == 1){
-                    wprintf(L"Le coup vous mettrais en echec");
-                }
+                    //reset ce qui doit l'etre
+                else{wprintf(L"Ce coup vous mettrait en echec");coupFait = 0;}
             }
-            while (IsEchecN(size, Copie, pieces) == 1);
+            while (IsEchecN(size, echiquier, pieces) == 1 || coupFait == 0);
 
             printEchiquier(size, echiquier);
-
         }
+    }
+
+
         wprintf(L"\nPour aller au prochain coup, entrez 0, pour quitter, entrez 2");
 
         scanf("%d", &nextCoup);
@@ -432,7 +612,7 @@ void fonctEchiquier(piece pieces[]){
 
     int size=0, x, y;
     //input de la taille de l'échequier
-    wprintf(L"Entrez la taille de l'echiquier\n");
+    wprintf(L"Entrez la taille de l'echiquier de 6x6 à 12x12\n");
     scanf("%d", &size);
     while(size<6 || size>12){
         wprintf(L"La valeur doit etre comprise entre 6 et 12");
@@ -441,7 +621,7 @@ void fonctEchiquier(piece pieces[]){
     char echiquier[size][size];
     generation(pieces, size, echiquier);
 
-    jeu(size, echiquier, pieces);
+    jeu(size, echiquier, pieces, 0);
     /*
      * Cette partie de ce programme sert a enregistrer l'échiquier dans un fichier, puis la taille de celui-ci dans un
      * autre fichier. L'enregistrement de l'échiquier se fait caractère par caractère et le fichier "size" ne contiens

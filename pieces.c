@@ -378,15 +378,18 @@ int dReine(int size, char echiquier[size][size], int Depart[], int Arrivee[], in
 }
 
 int dRoi(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID){
-    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet;
-    if( ((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy == 1)) || (abs(dx)==1 && dy ==0)) && pieceID>5 && pieceBlockID<6){
+    int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i;
+    if( ((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy)== 1) || (abs(dx)==1 && dy ==0)) && pieceID>5 && pieceBlockID<6){
         return 1;
     }
-    else if(((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy == 1)) || (abs(dx)==1 && dy ==0)) && pieceID<6 && pieceBlockID>5){
+    else if(((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy) == 1) || (abs(dx)==1 && dy ==0)) && pieceID<6 && pieceBlockID>5){
         return 1;
-}
+    }
+    else if(((abs(dx)==1 && abs(dy)==1) || (dx==0 && abs(dy)== 1) || (abs(dx)==1 && dy ==0)) && pieceBlockID==-1){
+        //si rien ne bloque
+        return 1;
+    }
     else{
-        //wprintf(L"Coup impossible pour le roi");
         return 0;
     }
 }

@@ -86,7 +86,7 @@ void readfile(piece pieces[]) {
                 }
             }
         }
-        jeu(taille,save_echiquier[taille][taille],pieces);
+        jeu(taille,save_echiquier,pieces, 0);
     }
     fclose(f);
 }
