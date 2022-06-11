@@ -261,21 +261,6 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
                                     coupFait = 1;
                                 }
 
-                                //On cherche la nom de la piece éventuellement prise lors du déplacement
-                                /*
-                                if (PiecePriseID >= 0 && PiecePriseID <= 5) {
-                                    searchName(PiecePriseID, &PiecePriseName, pieces);
-                                    findSprite(PiecePriseName);
-                                    PiecesPrisesN[n] = PiecePriseName;
-                                    n = n + 1;
-                                }
-                                if (PiecePriseID >= 6 && PiecePriseID <= 11) {
-                                    searchName(PiecePriseID, &PiecePriseName, pieces);
-                                    findSprite(PiecePriseName);
-                                    PiecesPrisesB[m] = PiecePriseName;
-                                    m = n + 1;
-                                }
-                                */
                                 //reset des variables
                             } else {
                                 wprintf(L"\nPiece invalide, choisir une autre piece");
@@ -353,21 +338,6 @@ int JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4
                     coupFait = 1;
                 }
 
-                //On cherche la nom de la piece éventuellement prise lors du déplacement
-                /*
-                if (PiecePriseID >= 0 && PiecePriseID <= 5) {
-                    searchName(PiecePriseID, &PiecePriseName, pieces);
-                    findSprite(PiecePriseName);
-                    PiecesPrisesN[n] = PiecePriseName;
-                    n = n + 1;
-                }
-                if (PiecePriseID >= 6 && PiecePriseID <= 11) {
-                    searchName(PiecePriseID, &PiecePriseName, pieces);
-                    findSprite(PiecePriseName);
-                    PiecesPrisesB[m] = PiecePriseName;
-                    m = n + 1;
-                }
-                */
                 //reset des variables
             } else {
                 wprintf(L"\nPiece invalide, choisir une autre piece");

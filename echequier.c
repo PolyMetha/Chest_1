@@ -9,7 +9,6 @@
 #include "menu.h"
 #include <time.h>
 #include <stdlib.h>
-#include <string.h>
 
 void printEchiquier(int size, char echiquier[size][size]) {
     int x, y, i, j = 0, ascii_A = 65;
@@ -100,23 +99,6 @@ void searchID(char name, int *pieceID, piece pieces[]) { //Recherche un ID de pi
         if (name == pieces[i].name) {
             *pieceID = pieces[i].id;
         }
-    }
-}
-
-void searchName(int ID, char *name, piece pieces[]) {  //Recherche un nom pour un ID donné
-    int i;
-    for (i = 0; i <= 11; i++) {
-        if (ID == pieces[i].id) {
-            *name = pieces[i].name;
-        }
-    }
-}
-
-char searchColor(int ID) {
-    if (ID > 5) {
-        return 'b';
-    } else {
-        return 'n';
     }
 }
 
@@ -312,7 +294,6 @@ int IsEchecN(int size, char Copie[size][size], piece pieces[]) {
         return 0;
     }
 }
-
 
 int EchecEtMatN(int size, char echiquier[size][size], piece pieces[], int posRoi[2]) {
     int x, y, a, b, End[2], ID = 5, BlockID, escape = 0, IDpiece, PieceStart[2], PieceEnd[2];
@@ -636,7 +617,6 @@ void jeu(int size, char echiquier[size][size], piece pieces[], int QuelTour) {
         scanf("%d", &nextCoup);
     }
 }
-
 
 void fonctEchiquier(piece pieces[]) {
 
