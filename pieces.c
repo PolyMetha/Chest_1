@@ -14,60 +14,45 @@ void findSprite(char name){
     switch(name){
         //pieces blanches
         case 'P':
-            wprintf(L"\x2659");
+            wprintf(L"BP");
             break;
         case 'T':
-            wprintf(L"\x2656");
+            wprintf(L"BT");
             break;
         case 'C':
-            wprintf(L"\x2658");
+            wprintf(L"BC");
             break;
         case 'F':
-            wprintf(L"\x2657");
+            wprintf(L"BF");
             break;
         case 'Q':
-            wprintf(L"\x2655");
+            wprintf(L"BQ");
             break;
         case 'R':
-            wprintf(L"\x2654");
+            wprintf(L"BR");
             break;
 
             //pieces noires
         case 'p':
-            wprintf(L"\x265F");
+            wprintf(L"np");
             break;
         case 't':
-            wprintf(L"\x265C");
+            wprintf(L"nt");
             break;
         case 'c':
-            wprintf(L"\x265E");
+            wprintf(L"nc");
             break;
         case 'f':
-            wprintf(L"\x265D");
+            wprintf(L"nf");
             break;
         case 'q':
-            wprintf(L"\x265B");
+            wprintf(L"nq");
             break;
         case 'r':
-            wprintf(L"\x265A");
-            break;
-        case '0':
-            wprintf(L"0");
-            break;
-        case '1':
-            wprintf(L"1");
-            break;
-        case '2':
-            wprintf(L"2");
-            break;
-        case '3':
-            wprintf(L"3");
-            break;
-        case '4':
-            wprintf(L"4");
+            wprintf(L"nr");
             break;
         default:
-            wprintf(L"\x2001");
+            wprintf(L" ");
             break;
     }
 }

@@ -19,47 +19,46 @@ void printEchiquier(int size, char echiquier[size][size]) {
     wprintf(L"\n\n   ");
 
     for (i = 0; i < size; i++) {
-        wprintf(L"   %c  ", ascii_A + i);
+        wprintf(L"   %c ", ascii_A + i);
     }
-    wprintf(L"\n    ");
+    wprintf(L"\n   +");
     for (i = 0; i < size; i++) {
-        wprintf(L"-----+");
+        wprintf(L"----+");
     }
     wprintf(L"\n");
 
     //contenu
     for (x = 0; x < size; x++) {
-        wprintf(L"%d ", size - x);
-        if (x > 1) {
+        wprintf(L"%d", size - x);
+        if (size - x < 10) {
             wprintf(L" ");
         }
 
         for (y = 0; y < size; y++) {
-            wprintf(L"|");
+            wprintf(L" | ");
             if (echiquier[x][y] != ' ') {
-                //findSprite(echiquier[x][y]);
-                wprintf(L"  %c  ", echiquier[x][y]);
+                findSprite(echiquier[x][y]);
             } else {
                 if (x % 2 == 0) {
                     if (y % 2 == 0) {
-                        wprintf(L"  _  ");
+                        wprintf(L"__");
                     } else {
-                        wprintf(L"     ");
+                        wprintf(L"  ");
                     }
                 } else {
                     if (y % 2 == 0) {
-                        wprintf(L"     ");
+                        wprintf(L"  ");
                     } else {
-                        wprintf(L"  _  ");
+                        wprintf(L"__");
                     }
                 }
-
             }
         }
-        wprintf(L"|\n   ");
+        wprintf(L" |\n   ");
+
         for (y = 0; y < size; y++) {
             wprintf(L""
-                    "+-----");
+                    "+----");
         }
         wprintf(L"\n");
     }
