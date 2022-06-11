@@ -16,5 +16,5 @@ void searchName(int, char*, piece[]);
 char searchColor(int ID);
 void IsEchec(int size, char[size][size], piece[],int*, int*);
 void generation(piece[], int size, char echiquier[size][size]);
-void jeu(int size, char echiquier[size][size], piece[]);
+void jeu(int size, char echiquier[size][size], piece[], int);
 #endif //CHEST_1_ECHEQUIER_H
