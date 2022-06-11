@@ -21,27 +21,27 @@ void printEchiquier(int size, char echiquier[size][size]) {
     for (i = 0; i < size; i++) {
         wprintf(L"   %c ", ascii_A + i);
     }
-    wprintf(L"\n   +");
-    for (i = 0; i < size; i++) {
-        wprintf(L"----+");
+    wprintf(L"\n   ┌");
+    for (i = 0; i < size-1; i++) {
+        wprintf(L"────┬");
     }
-    wprintf(L"\n");
+    wprintf(L"────┐\n");
 
     //contenu
-    for (x = 0; x < size; x++) {
+    for (x = 0; x < size-1; x++) {
         wprintf(L"%d", size - x);
         if (size - x < 10) {
             wprintf(L" ");
         }
 
         for (y = 0; y < size; y++) {
-            wprintf(L" | ");
+            wprintf(L" │ ");
             if (echiquier[x][y] != ' ') {
                 findSprite(echiquier[x][y]);
             } else {
                 if (x % 2 == 0) {
                     if (y % 2 == 0) {
-                        wprintf(L"__");
+                        wprintf(L"██");
                     } else {
                         wprintf(L"  ");
                     }
@@ -49,20 +49,48 @@ void printEchiquier(int size, char echiquier[size][size]) {
                     if (y % 2 == 0) {
                         wprintf(L"  ");
                     } else {
-                        wprintf(L"__");
+                        wprintf(L"██");
                     }
                 }
             }
         }
-        wprintf(L" |\n   ");
+        wprintf(L" │\n   ├────");
 
-        for (y = 0; y < size; y++) {
+        for (y = 1; y < size-1; y++) {
             wprintf(L""
-                    "+----");
+                    "┼────");
         }
-        wprintf(L"\n");
+        wprintf(L"┼────┤\n");
     }
-    wprintf(L"\n");
+    x=size-1;
+    wprintf(L"1 ");
+    for (y = 0; y < size; y++) {
+        wprintf(L" │ ");
+        if (echiquier[x][y] != ' ') {
+            findSprite(echiquier[x][y]);
+        } else {
+            if (x % 2 == 0) {
+                if (y % 2 == 0) {
+                    wprintf(L"██");
+                } else {
+                    wprintf(L"  ");
+                }
+            } else {
+                if (y % 2 == 0) {
+                    wprintf(L"  ");
+                } else {
+                    wprintf(L"██");
+                }
+            }
+        }
+    }
+    wprintf(L" │\n   └────");
+
+    for (y = 1; y < size-1; y++) {
+        wprintf(L""
+                "┴────");
+    }
+    wprintf(L"┴────┘\n");
 
 }
 
