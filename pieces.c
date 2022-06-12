@@ -14,6 +14,7 @@ void findSprite(char name){
     switch(name){
         //pieces blanches
         case 'P':
+<<<<<<< Updated upstream
             wprintf(L"\x2659");
             break;
         case 'T':
@@ -30,10 +31,29 @@ void findSprite(char name){
             break;
         case 'R':
             wprintf(L"\x2654");
+=======
+            wprintf(L"PB");
+            break;
+        case 'T':
+            wprintf(L"TB");
+            break;
+        case 'C':
+            wprintf(L"CB");
+            break;
+        case 'F':
+            wprintf(L"FB");
+            break;
+        case 'Q':
+            wprintf(L"QB");
+            break;
+        case 'R':
+            wprintf(L"RB");
+>>>>>>> Stashed changes
             break;
 
             //pieces noires
         case 'p':
+<<<<<<< Updated upstream
             wprintf(L"\x265F");
             break;
         case 't':
@@ -65,6 +85,24 @@ void findSprite(char name){
             break;
         case '4':
             wprintf(L"4");
+=======
+            wprintf(L"pn");
+            break;
+        case 't':
+            wprintf(L"tn");
+            break;
+        case 'c':
+            wprintf(L"cn");
+            break;
+        case 'f':
+            wprintf(L"fn");
+            break;
+        case 'q':
+            wprintf(L"qn");
+            break;
+        case 'r':
+            wprintf(L"rn");
+>>>>>>> Stashed changes
             break;
         default:
             wprintf(L"\x2001");
