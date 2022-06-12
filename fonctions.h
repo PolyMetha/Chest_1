@@ -14,7 +14,7 @@ void LetterToInt(char, int*);
 
 int pieceBlanche(int);
 
-int input(int[2], int size, piece[], char echiquier[size][size]);
+int input(int[2], int size, piece[], char echiquier[size][size],int tourdujoueur);
 
 int fonctionCoup(int size, char[size][size], int[], int[], int, int);
 

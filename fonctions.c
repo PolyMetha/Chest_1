@@ -72,7 +72,7 @@ int pieceBlanche(int pieceID) {
     }
 }
 
-int input(int Case[2], int size, piece pieces[], char echiquier[size][size]) {
+int input(int Case[2], int size, piece pieces[], char echiquier[size][size], int tourdujoueur) {
     char lettre = '0';
 
     char reponse[3] = "oui";
@@ -94,7 +94,7 @@ int input(int Case[2], int size, piece pieces[], char echiquier[size][size]) {
         }
 
     } else if (lettre == 'S') {
-        stock = savefile(pieces, size, echiquier, 1);
+        stock = savefile(pieces, size, echiquier, tourdujoueur);
         if (stock == 2) {
             return 2;
         } else { return 0; }
@@ -172,7 +172,7 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
         End[1] = -1;
         PieceSelectID = -1, PieceBlockID = -1;
 
-        input(Start, size, pieces, echiquier);
+        input(Start, size, pieces, echiquier, 0);
 
         wprintf(L"\n");
 
@@ -188,7 +188,7 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
 
                 //Entrée de la case d'arrivée de la piece
                 wprintf(L"\nOu voulez vous vous déplacer ?");
-                input(End, size, pieces, echiquier);
+                input(End, size, pieces, echiquier, 0);
 
                 //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
                 if (echiquier[End[0]][End[1]] != ' ') {
@@ -212,69 +212,15 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
                 } else {
                     //si la fonction retourne 0, cela veut dire que le coup n'a pas pu etre fait, on recommence la boucle
                     wprintf(L"\nCoup impossible");
-
-                    stock = input(Start, size, pieces, echiquier);
-
-                    if (stock == 2) {
-                        return 2;
-                    } else {
-                        wprintf(L"\n");
-
-                        //verif si c'est une piece blanche, si case vide ou piece noire, choisir autre piece
-                        if (echiquier[Start[0]][Start[1]] != ' ') {
-                            searchID(echiquier[Start[0]][Start[1]], &PieceSelectID, pieces);
-                            if (PieceSelectID > 5) {
-                                wprintf(L"\nPiece selectionee : ");
-                                for (i = 0; i < strlen(pieces[PieceSelectID].namePiece); i++) {
-                                    wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
-                                }
-                                wprintf(L"\n");
-
-                                //Entrée de la case d'arrivée de la piece
-                                wprintf(L"\nOu voulez vous vous déplacer ?\n");
-                                stock = input(End, size, pieces, echiquier);
-                                if (stock == 2) {
-                                    return 2;
-                                }
-
-                                //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
-                                if (echiquier[End[0]][End[1]] != ' ') {
-                                    searchID(echiquier[End[0]][End[1]], &PieceBlockID, pieces);
-                                }
-
-
-                                /* FonctionCoup redirige vers une fonction propre a chaque piece qui verifie si le deplacement est possible
-                                elle prend en parametre la lettre de la piece, la taille de l'echiquier, la case de départ, d'arrivée
-                                l'id de la piece de départ, l'id de la potentille piece prise */
-                                if (fonctionCoup(size, echiquier, Start, End, PieceSelectID, PieceBlockID) == 1) {
-                                    echiquier[End[0]][End[1]] = echiquier[Start[0]][Start[1]];
-                                    echiquier[Start[0]][Start[1]] = ' ';
-
-                                    SaveCoup[0] = Start[0];
-                                    SaveCoup[1] = Start[1];
-                                    SaveCoup[2] = End[0];
-                                    SaveCoup[3] = End[1];
-
-                                    coupFait = 0;
-                                } else {
-                                    //si la fonction retourne 0, cela veut dire que le coup n'a pas pu etre fait, on recommence la boucle
-                                    wprintf(L"\nCoup impossible");
-                                    coupFait = 1;
-                                }
-
-                                //reset des variables
-                            }
-
-                        }
-                    }
+                    coupFait = 1;
                 }
-            }
-            else {
+                //reset des variables
+
+            } else {
                 wprintf(L"\nPiece invalide, choisir une autre piece");
                 coupFait = 1;
             }
-        }
-        else{
+        } else {
             wprintf(L"\nAucune piece selectionnée");
             coupFait = 1;
         }
@@ -295,7 +241,7 @@ int JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4
         End[0] = -1;
         End[1] = -1;
 
-        stock = input(Start, size, pieces, echiquier);
+        stock = input(Start, size, pieces, echiquier, 1);
 
         if (stock == 2) {
             return 2;
@@ -315,7 +261,7 @@ int JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4
 
                 //Entrée de la case d'arrivée de la piece
                 wprintf(L"\nOu voulez vous vous déplacer ?\n");
-                input(End, size, pieces, echiquier);
+                input(End, size, pieces, echiquier, 1);
 
                 //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
                 if (echiquier[End[0]][End[1]] != ' ') {
@@ -346,8 +292,7 @@ int JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4
                 wprintf(L"\nPiece invalide, choisir une autre piece");
                 coupFait = 1;
             }
-        }
-        else{
+        } else {
             wprintf(L"\nAucune piece selectionnée");
             coupFait = 1;
         }
