@@ -420,7 +420,7 @@ int EchecEtMatB(int size, char echiquier[size][size], piece pieces[], int posRoi
                             if (echiquier[a][b] != ' ') {
                                 searchID(echiquier[a][b], &BlockID, pieces);
                             }
-                            
+
                             PieceEnd[1] = b;
                             if (fonctionCoup(size, echiquier, PieceStart, PieceEnd, IDpiece, BlockID) == 1) {
                                 temp = echiquier[PieceEnd[0]][PieceEnd[1]];

@@ -32,12 +32,12 @@ void menu (){
             11,'R',"Roi Blanc"
     };
     while(quitterboolean != 0){
-        wprintf(L"Jeux propose par Andréa REINICHE et Quentin BALEZEAU\n");
-        wprintf(L"\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\n");
-        wprintf(L"1 - Demarrer une partie\n");
-        wprintf(L"2 - Reprendre une partie\n");
-        wprintf(L"3 - Quitter\n");
-        wprintf(L"\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\n");
+        wprintf(L"Jeu proposé par Andréa REINICHE et Quentin BALEZEAU\n");
+        wprintf(L"  ┌──────────────────────────────┐\n");
+        wprintf(L"  │   1 - Demarrer une partie    │\n");
+        wprintf(L"  │   2 - Reprendre une partie   │\n");
+        wprintf(L"  │   3 - Quitter                │\n");
+        wprintf(L"  └──────────────────────────────┘\n");
         wprintf(L"En pleine partie, 'S' permet de sauvegarder, 'X' permet d'abandonner\n");
 
         do {//Vérification de l'accisition de l'utilisateur.
