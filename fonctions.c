@@ -78,17 +78,18 @@ int input(int Case[2], int size, piece pieces[], char echiquier[size][size]) {
     char reponse[3] = "oui";
     int reponseboolean = 0;
     int stock = 0;
-    wprintf(L"Lettre de la colonne : ");
+    wprintf(L"\nLettre de la colonne : ");
     while (lettre < 'A' || lettre >= 'A' + size && lettre == 'X' && lettre == 'S') {
+        fflush(stdin);
         scanf("%c", &lettre);
     }
     if (lettre == 'X') {
-        wprintf(L"vous êtes sur oui ou non?\n");
+        wprintf(L"\nEtes vous sur oui ou non?\n");
         scanf("%s", &reponse);
         strlwr(reponse);
         reponseboolean = strcmp(reponse, "oui");
         if (reponseboolean == 0) {
-            wprintf(L"A bientot\n");
+            wprintf(L"\nA bientot");
             return 2;
         }
 
@@ -101,13 +102,13 @@ int input(int Case[2], int size, piece pieces[], char echiquier[size][size]) {
     } else {
         LetterToInt(lettre, &Case[1]);
         lettre = ' ';
-        wprintf(L"Numero de la ligne : ");
+        wprintf(L"\nNumero de la ligne : ");
         while (Case[0] < 0 || Case[0] >= size) {
+            fflush(stdin);
             scanf(" %d", &Case[0]);
             //le 1 affiché correspond au 0 echiquier
             Case[0] = size - Case[0];
         }
-
     }
 }
 
@@ -162,7 +163,7 @@ fonctionCoup(int size, char echiquier[size][size], int CaseDepart[], int CaseArr
 int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4]) {
     int Start[2], End[2], PieceSelectID, PieceBlockID, i, coupFait, stock = 0;
 
-    wprintf(L"Tour des blancs\n");
+    wprintf(L"\nTour des blancs");
 
     do {
         Start[0] = -1;
@@ -179,14 +180,14 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
         if (echiquier[Start[0]][Start[1]] != ' ') {
             searchID(echiquier[Start[0]][Start[1]], &PieceSelectID, pieces);
             if (PieceSelectID > 5) {
-                wprintf(L"Piece selectionee : ");
+                wprintf(L"\nPiece selectionee : ");
                 for (i = 0; i < strlen(pieces[PieceSelectID].namePiece); i++) {
                     wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
                 }
                 wprintf(L"\n");
 
                 //Entrée de la case d'arrivée de la piece
-                wprintf(L"Ou voulez vous vous déplacer ?\n");
+                wprintf(L"\nOu voulez vous vous déplacer ?");
                 input(End, size, pieces, echiquier);
 
                 //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
@@ -210,7 +211,7 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
                     coupFait = 0;
                 } else {
                     //si la fonction retourne 0, cela veut dire que le coup n'a pas pu etre fait, on recommence la boucle
-                    wprintf(L"Coup impossible");
+                    wprintf(L"\nCoup impossible");
 
                     stock = input(Start, size, pieces, echiquier);
 
@@ -223,14 +224,14 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
                         if (echiquier[Start[0]][Start[1]] != ' ') {
                             searchID(echiquier[Start[0]][Start[1]], &PieceSelectID, pieces);
                             if (PieceSelectID > 5) {
-                                wprintf(L"Piece selectionee : ");
+                                wprintf(L"\nPiece selectionee : ");
                                 for (i = 0; i < strlen(pieces[PieceSelectID].namePiece); i++) {
                                     wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
                                 }
                                 wprintf(L"\n");
 
                                 //Entrée de la case d'arrivée de la piece
-                                wprintf(L"Ou voulez vous vous déplacer ?\n");
+                                wprintf(L"\nOu voulez vous vous déplacer ?\n");
                                 stock = input(End, size, pieces, echiquier);
                                 if (stock == 2) {
                                     return 2;
@@ -257,21 +258,25 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
                                     coupFait = 0;
                                 } else {
                                     //si la fonction retourne 0, cela veut dire que le coup n'a pas pu etre fait, on recommence la boucle
-                                    wprintf(L"Coup impossible");
+                                    wprintf(L"\nCoup impossible");
                                     coupFait = 1;
                                 }
 
                                 //reset des variables
-                            } else {
-                                wprintf(L"\nPiece invalide, choisir une autre piece");
-                                coupFait = 1;
                             }
 
                         }
                     }
-
                 }
             }
+            else {
+                wprintf(L"\nPiece invalide, choisir une autre piece");
+                coupFait = 1;
+            }
+        }
+        else{
+            wprintf(L"\nAucune piece selectionnée");
+            coupFait = 1;
         }
     } while (coupFait == 1);
     return 0;
@@ -279,7 +284,7 @@ int JeuBlanc(int size, char echiquier[size][size], piece pieces[], int SaveCoup[
 
 int JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4]) {
     int Start[2], End[2], PieceSelectID, PieceBlockID, i, stock = 0, coupFait;
-    wprintf(L"Tour des Noirs\n");
+    wprintf(L"\nTour des Noirs");
 
     do {
 
@@ -298,19 +303,18 @@ int JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4
 
         wprintf(L"\n");
 
-
         //verif si c'est une piece noire, si case vide ou piece blanche, choisir autre piece
         if (echiquier[Start[0]][Start[1]] != ' ') {
             searchID(echiquier[Start[0]][Start[1]], &PieceSelectID, pieces);
             if (PieceSelectID < 6) {
-                wprintf(L"Piece selectionee : ");
+                wprintf(L"\nPiece selectionee : ");
                 for (i = 0; i < strlen(pieces[PieceSelectID].namePiece); i++) {
                     wprintf(L"%c", pieces[PieceSelectID].namePiece[i]);
                 }
                 wprintf(L"\n");
 
                 //Entrée de la case d'arrivée de la piece
-                wprintf(L"Ou voulez vous vous déplacer ?\n");
+                wprintf(L"\nOu voulez vous vous déplacer ?\n");
                 input(End, size, pieces, echiquier);
 
                 //Si l'arrivée n'est pas vide, on prend l'ID de la piece bloquante
@@ -334,18 +338,20 @@ int JeuNoir(int size, char echiquier[size][size], piece pieces[], int SaveCoup[4
 
                 } else {
                     //si la fonction retourne 0, cela veut dire que le coup n'a pas pu etre fait, on recommence la boucle
-                    wprintf(L"Coup impossible");
+                    wprintf(L"\nCoup impossible");
                     coupFait = 1;
                 }
-
                 //reset des variables
             } else {
                 wprintf(L"\nPiece invalide, choisir une autre piece");
                 coupFait = 1;
-                return 0;
             }
         }
-
+        else{
+            wprintf(L"\nAucune piece selectionnée");
+            coupFait = 1;
+        }
 
     } while (coupFait == 1);
+    return 0;
 }

@@ -339,11 +339,10 @@ int EchecEtMatN(int size, char echiquier[size][size], piece pieces[], int posRoi
                     for (a = 0; a < size; a++) {
                         PieceEnd[0] = a;
 
-                        if (echiquier[a][b] != ' ') {
-                            searchID(echiquier[a][b], &BlockID, pieces);
-                        }
-
                         for (b = 0; b < size; b++) {
+                            if (echiquier[a][b] != ' ') {
+                                searchID(echiquier[a][b], &BlockID, pieces);
+                            }
                             PieceEnd[1] = b;
                             if (fonctionCoup(size, echiquier, PieceStart, PieceEnd, IDpiece, BlockID) == 1) {
                                 temp = echiquier[PieceEnd[0]][PieceEnd[1]];
@@ -417,11 +416,11 @@ int EchecEtMatB(int size, char echiquier[size][size], piece pieces[], int posRoi
                     for (a = 0; a < size; a++) {
                         PieceEnd[0] = a;
 
-                        if (echiquier[a][b] != ' ') {
-                            searchID(echiquier[a][b], &BlockID, pieces);
-                        }
-
                         for (b = 0; b < size; b++) {
+                            if (echiquier[a][b] != ' ') {
+                                searchID(echiquier[a][b], &BlockID, pieces);
+                            }
+                            
                             PieceEnd[1] = b;
                             if (fonctionCoup(size, echiquier, PieceStart, PieceEnd, IDpiece, BlockID) == 1) {
                                 temp = echiquier[PieceEnd[0]][PieceEnd[1]];
@@ -502,7 +501,15 @@ void jeu(int size, char echiquier[size][size], piece pieces[], int QuelTour) {
 
                             printEchiquier(size, echiquier);
                         }
-                        //reset ce qui doit l'etre
+                        else{
+                            wprintf(L"\nCe coup ne résoud pas l'échec");
+                            //reset de la copie modifiée dans jeu
+                            for (n = 0; n < size; n++) {
+                                for (m = 0; m < size; m++) {
+                                    Copie[n][m] = echiquier[n][m];
+                                }
+                            }
+                        }
                     }
                 } else {
                     //partie finie, vainqueur Noir
@@ -554,7 +561,6 @@ void jeu(int size, char echiquier[size][size], piece pieces[], int QuelTour) {
                         for (m = 0; m < size; m++) {
                             Copie[n][m] = echiquier[n][m];
                         }
-
                     }
                     printEchiquier(size, echiquier);
                     wprintf(L"\nEchec pour les noirs !\n");
@@ -568,6 +574,15 @@ void jeu(int size, char echiquier[size][size], piece pieces[], int QuelTour) {
                             Copie[SaveCoup[2]][SaveCoup[3]] = Copie[SaveCoup[0]][SaveCoup[1]];
                             Copie[SaveCoup[0]][SaveCoup[1]] = ' ';
                             QuelTour = 0;
+                        }
+                        else{
+                            wprintf(L"\nCe coup ne résoud pas l'échec");
+                            //reset de la copie modifiée dans jeu
+                            for (n = 0; n < size; n++) {
+                                for (m = 0; m < size; m++) {
+                                    Copie[n][m] = echiquier[n][m];
+                                }
+                            }
                         }
                         //reset ce qui doit l'etre
                         printEchiquier(size, echiquier);
