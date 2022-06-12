@@ -10,6 +10,7 @@
 #include "echequier.h"
 #include "menu.h"
 #include "Savefile.h"
+#include "fonctions.h"
 
 void menu (){
     _setmode(_fileno(stdout), 0x00020000);
@@ -32,6 +33,7 @@ void menu (){
             11,'R',"Roi Blanc"
     };
     while(quitterboolean != 0){
+        clear();
         wprintf(L"Jeu proposé par Andréa REINICHE et Quentin BALEZEAU\n");
         wprintf(L"  ┌──────────────────────────────┐\n");
         wprintf(L"  │   1 - Demarrer une partie    │\n");

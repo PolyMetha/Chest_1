@@ -15,6 +15,6 @@ int IsEchecN(int size, char[size][size], piece[]);
 int EchecEtMatN(int size, char[size][size], piece[], int[2]);
 int EchecEtMatB(int size, char[size][size], piece[], int[2]);
 void searchID(char name, int *pieceID, piece[]);
-void jeu(int size, char echiquier[size][size], piece[], int);
+int jeu(int size, char echiquier[size][size], piece[], int);
 
 #endif //CHEST_1_ECHEQUIER_H

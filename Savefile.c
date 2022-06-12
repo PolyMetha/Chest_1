@@ -45,10 +45,11 @@ int savefile(piece pieces[], int size, char echiquier[size][size], int tourdujou
         strlwr(reponse);
         reponseboolean = strcmp(reponse, "oui");
         if (reponseboolean == 0) {
-            jeu(size, echiquier, pieces, 0);
+            jeu(size, echiquier, pieces, tourdujoueur);
         } else {
-            wprintf(L"ton père");
+            wprintf(L"retour au menu...\n");
             return 2;
+
         }
     }
 }
@@ -58,28 +59,30 @@ void readfile(piece pieces[]) {
 
     int tourdujoueur = 0;
     int size = 0;
-    FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
-    if (f != NULL) {  //vérification de l'ouverture
-        fscanf(f, "%d\n", &size); //Enregistre la taille de l'ancien échiquier
-        wprintf(L"%d", size);
-    }
-
-    char save_echiquier[size][size];
     char stock[10];
+    int test = 0;
+    FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
 
-    if (f != NULL) {
+    if (f != NULL && fgets(stock,2,f) != NULL){  //vérification de l'ouverture
+        rewind(f);
+        fscanf(f, "%d\n", &size); //Enregistre la taille de l'ancien échiquier
+        char save_echiquier[size][size];
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 if (fgets(stock, 2, f) != NULL) {
                     save_echiquier[x][y] = stock[0];
-                    wprintf(L"%c", save_echiquier[x][y]);
-                } else { wprintf(L"il n'y a pas de partie enregistré"); }
+                } else { wprintf(L"il n'y a pas de partie enregistré");
+                }
             }
         }
-    }
-    fscanf(f, "%d\n", &tourdujoueur);
-    wprintf(L"%d", tourdujoueur);
-    fclose(f);
-    jeu(size, save_echiquier, pieces, tourdujoueur);
+        fscanf(f, "%d\n", &tourdujoueur);
+        fclose(f);
+        jeu(size, save_echiquier, pieces, tourdujoueur);
+        menu();
+    }else{wprintf(L"Pas de partie enregristé");
+        menu();}
+
+
+
 
 }
