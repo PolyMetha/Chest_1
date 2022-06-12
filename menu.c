@@ -33,7 +33,6 @@ void menu (){
     };
     while(quitterboolean != 0){
         wprintf(L"Jeux propose par Andréa REINICHE et Quentin BALEZEAU\n");
-
         wprintf(L"\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\x2500\n");
         wprintf(L"1 - Demarrer une partie\n");
         wprintf(L"2 - Reprendre une partie\n");

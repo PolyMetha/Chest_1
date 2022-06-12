@@ -61,7 +61,7 @@ void readfile(piece pieces[]) {
     FILE *f = fopen("Save.txt", "r"); // ouverture du fichier en mode lecture
     if (f != NULL) {  //vérification de l'ouverture
         fscanf(f, "%d\n", &size); //Enregistre la taille de l'ancien échiquier
-        wprintf(L"%d",size);
+        wprintf(L"%d", size);
     }
 
     char save_echiquier[size][size];
@@ -70,15 +70,15 @@ void readfile(piece pieces[]) {
     if (f != NULL) {
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
-                if (fgets(stock, 2, f) != NULL){
+                if (fgets(stock, 2, f) != NULL) {
                     save_echiquier[x][y] = stock[0];
                     wprintf(L"%c", save_echiquier[x][y]);
-                }
+                } else { wprintf(L"il n'y a pas de partie enregistré"); }
             }
         }
     }
-    fscanf(f,"%d\n",&tourdujoueur);
-    wprintf(L"%d",tourdujoueur);
+    fscanf(f, "%d\n", &tourdujoueur);
+    wprintf(L"%d", tourdujoueur);
     fclose(f);
     jeu(size, save_echiquier, pieces, tourdujoueur);
 

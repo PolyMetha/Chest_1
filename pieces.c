@@ -14,42 +14,42 @@ void findSprite(char name){
     switch(name){
         //pieces blanches
         case 'P':
-            wprintf(L"BP");
+            wprintf(L"PB");
             break;
         case 'T':
-            wprintf(L"BT");
+            wprintf(L"TB");
             break;
         case 'C':
-            wprintf(L"BC");
+            wprintf(L"CB");
             break;
         case 'F':
-            wprintf(L"BF");
+            wprintf(L"FB");
             break;
         case 'Q':
-            wprintf(L"BQ");
+            wprintf(L"QB");
             break;
         case 'R':
-            wprintf(L"BR");
+            wprintf(L"RB");
             break;
 
             //pieces noires
         case 'p':
-            wprintf(L"np");
+            wprintf(L"pn");
             break;
         case 't':
-            wprintf(L"nt");
+            wprintf(L"tn");
             break;
         case 'c':
-            wprintf(L"nc");
+            wprintf(L"cn");
             break;
         case 'f':
-            wprintf(L"nf");
+            wprintf(L"fn");
             break;
         case 'q':
-            wprintf(L"nq");
+            wprintf(L"qn");
             break;
         case 'r':
-            wprintf(L"nr");
+            wprintf(L"rn");
             break;
         default:
             wprintf(L" ");
