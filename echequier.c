@@ -375,6 +375,7 @@ int EchecEtMatB(int size, char echiquier[size][size], piece pieces[], int posRoi
     int x, y, a, b, End[2], ID = 11, BlockID, escape = 0, IDpiece, PieceStart[2], PieceEnd[2];
     char temp;
 
+    //on parcoure l'échiquier selon x et y
     for (x = 0; x < size; x++) {
         End[0] = x;
         for (y = 0; y < size; y++) {
@@ -386,7 +387,8 @@ int EchecEtMatB(int size, char echiquier[size][size], piece pieces[], int posRoi
                 BlockID = -1;
             }
 
-
+            //si le mouvement cherché est possible, on l'effectue dans une copie et on verifie après le coup
+            //si non, alors il existe une exhapatoire
             if (fonctionCoup(size, echiquier, posRoi, End, ID, BlockID) == 1) {
                 //sauvegarde la piece dans la position d'arrivée pour reset le coup plus tard
                 temp = echiquier[End[0]][End[1]];
@@ -404,6 +406,7 @@ int EchecEtMatB(int size, char echiquier[size][size], piece pieces[], int posRoi
         }
     }
 
+    //on verifie si une pièce allié peut nous protéger
     for (x = 0; x < size; x++) {
         for (y = 0; y < size; y++) {
             if (echiquier[x][y] != ' ') {

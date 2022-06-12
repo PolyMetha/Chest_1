@@ -136,7 +136,9 @@ int dFou(int size, char echiquier[size][size], int Depart[], int Arrivee[], int 
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], trajet=0, i;
 
     if(pieceID>5){
+        //si déplacement en diagonale
         if(abs(dx)==abs(dy)){
+            // on vérifie que rien ne nous bloque sur le trajet
             if(dx>0 && dy > 0){
                 for(i=1; i<abs(dx); i++){
                     if(echiquier[Depart[0]+i][Depart[1]+i] != ' '){
@@ -245,6 +247,7 @@ int dTour(int size, char echiquier[size][size], int Depart[], int Arrivee[], int
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet=0;
     if(pieceID>5){
         if(dx==0 || dy ==0){    //si le mouvement est rectiligne
+            //on verifie que rien ne nous bloque sur le trajet
             if(dx<0){           //si deplacement vers le haut
                 for(i=1; i<abs(dx); i++){
                     if(echiquier[Depart[0]-i][Depart[1]] != ' '){
@@ -353,7 +356,7 @@ int dTour(int size, char echiquier[size][size], int Depart[], int Arrivee[], int
 
 int dReine(int size, char echiquier[size][size], int Depart[], int Arrivee[], int pieceID, int pieceBlockID){
     int dx = Arrivee[0]-Depart[0], dy = Arrivee[1]-Depart[1], i, trajet;
-
+//la reine
     if(dTour(size, echiquier, Depart, Arrivee, pieceID, pieceBlockID)==1 || dFou(size, echiquier, Depart, Arrivee, pieceID, pieceBlockID)==1){
         return 1;
     }
