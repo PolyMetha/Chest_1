@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <io.h>             //requis pour imprimer les caractères en unicodes
-#include <windows.h>
+#include <windows.h>        //requis pour clear la console sur windows
 #include "echequier.h"
 #include "menu.h"
 #include "Savefile.h"
